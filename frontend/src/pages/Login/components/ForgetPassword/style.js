@@ -38,21 +38,23 @@ export const Form = styled.form`
     }
   }
 
-  button.forget-password {
-    background-color: transparent;
-    border: none;
-    color: ${({theme}) => theme.primaryBackground};
-    font-size: 0.9em;
-    margin-left: auto;
-    margin-right: 0;
-  }
-
   button.submit {
     background-color: ${({theme}) => theme.primaryBackground};
     border: none;
     border-radius: 10px;
     color: ${({theme}) => theme.primaryText};
     font-size: 1.3em;
+    padding: 15px 0;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  button.back {
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    color: ${({theme}) => theme.SecondaryText};
+    font-size: 1.3em; 
     padding: 15px 0;
     margin-top: 20px;
     width: 100%;

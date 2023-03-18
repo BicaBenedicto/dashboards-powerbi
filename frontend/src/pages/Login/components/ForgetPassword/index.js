@@ -8,7 +8,7 @@ export default function ForgetPassword({ toggleInSignInPage }) {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      return;
+      return console.log('HEY');
     } catch (e) {
       console.error(e);
     }
@@ -30,6 +30,13 @@ export default function ForgetPassword({ toggleInSignInPage }) {
         className="submit"
       >
         Recuperar a senha
+      </button>
+      <button
+        type="button"
+        className="back"
+        onClick={() => toggleInSignInPage(true)}
+      >
+        Voltar
       </button>
     </Form>
   );

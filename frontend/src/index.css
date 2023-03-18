@@ -8,6 +8,12 @@ html, body, #root {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  max-width: 99.5vw;
+  width: 100%;
+}
+
+#root {
+  height: 100%;
   width: 100%;
 }
 
@@ -18,5 +24,6 @@ code {
 
 button {
   border: none;
+  transition: 0.3s;
   cursor: pointer;
 }

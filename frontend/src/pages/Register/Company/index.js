@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Switch } from "@mui/material";
 import {
   AddBox,
@@ -8,9 +9,13 @@ import {
 import { Container } from './style';
 
 import { maskCnpj, convertTel } from '../../../utils/maskConvert';
+import { Empresas } from '../../../services/api.service';
 
 export default function RegisterCompany() {
-  const [companyStatus, toggleCompanyStatus] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const pathnameBack = location.pathname.split('/').filter((_v, index, array) => index !== (array.length - 1)).join('/');
+  const [companyStatus, toggleCompanyStatus] = useState(true);
   const [cnpj, setCnpj] = useState('');
   const [logo, setLogo] = useState('');
   const [razaoSocial, setRazaoSocial] = useState('');
@@ -32,26 +37,26 @@ export default function RegisterCompany() {
 
     if (!responsavel) {
       setMessageError('Nome do responsável vazio');
-      return true;
+      return;
     }
     if (!regexEmailValidation.test(emailResponsavel)) {
       setMessageError('E-mail do responsável vazio ou em formato incorreto');
-      return true;
+      return;
     }
     if (!telefoneResponsavel || telefoneResponsavel.length < 14) {
       setMessageError('Telefone do responsável vazio');
-      return true;
-    }
-
-    return false;
-  };
-
-  const onAddResponsavelButton = () => {
-    if (validateResponsavel()) {
       return;
     }
 
-    setResponsaveis((resp) => ([...resp, { nome: responsavel, email: emailResponsavel, telefone: telefoneResponsavel }]));
+    return true;
+  };
+
+  const onAddResponsavelButton = () => {
+    if (!validateResponsavel()) {
+      return;
+    }
+
+    setResponsaveis((resp) => ([...resp, { nome: responsavel, email: emailResponsavel, telefone: telefoneResponsavel.replace(/[^\d]/g, "") }]));
     setResponsavel('');
     setEmailResponsavel('');
     setTelefoneResponsavel('');
@@ -62,7 +67,29 @@ export default function RegisterCompany() {
     setResponsaveis((resp) => resp.filter((_v, i) => i !== index));
   };
 
-  console.log(logo, 'LGO');
+  const onSubmitCompany = async (e) => {
+    e.preventDefault();
+    try {
+      await Empresas.create({
+        nome: nomeFantasia,
+        cnpj: cnpj.replace(/[^\d]/g, ""),
+        razaoSocial,
+        status: companyStatus,
+        responsaveis,
+      });
+
+      setCnpj('');
+      setLogo();
+      setNomeFantasia('');
+      setRazaoSocial('');
+      setResponsavel('');
+      setEmailResponsavel('');
+      setTelefoneResponsavel('');
+      setResponsaveis([]);
+    } catch(e) {
+      throw e;
+    }
+  };
 
   return (
     <Container>
@@ -75,7 +102,7 @@ export default function RegisterCompany() {
           onClick={() => toggleCompanyStatus(!companyStatus)}
         />
       </div>
-      <form>
+      <form onSubmit={onSubmitCompany}>
         <div>
           <label>
             <span>CNPJ</span>
@@ -87,22 +114,22 @@ export default function RegisterCompany() {
               onChange={(e) => setCnpj(e.target.value)}
             />
           </label>
-          <label>
+          {/* <label>
             <span>Logo</span>
             <div className="logo-corpo">
-              <div style={{ backgroundImage:  logo && `url(${logo})` }} className="company-logo"/>
+              <div style={{ backgroundImage:  logo && `url(${logo?.name})` }} className="company-logo"/>
               <div>
                 <span>Selecione o arquivo de logo (png, jpeg ou SVG)</span>
                 <span className="button">Buscar arquivo</span>
               </div>
               <input
                 type="file"
-                value={logo.name}
+                value={logo?.name}
                 onChange={(e) => setLogo(e.target.files[0])}
                 style={{ display: 'none' }}
               />
             </div>
-          </label>
+          </label> */}
           <label>
             <span>Razão Social</span>
             <input
@@ -166,7 +193,7 @@ export default function RegisterCompany() {
           <ul>
             {responsaveis.map((resp, index) => 
               <>
-                <li>
+                <li key={index}>
                   <b>Nome: </b>{resp.nome}, <b>E-mail: </b>{resp.email}, <b>Telefone: </b>{convertTel(resp.telefone)} <button className="icon icon-remove" onClick={() => onRemoveResponsavelButton(index)}><DisabledByDefault /></button>
                 </li>
                 <br/>
@@ -179,11 +206,12 @@ export default function RegisterCompany() {
             type="submit"
             className="submit"
           >
-            Salvar
+            Criar
           </button>
           <button
             type="button"
             className="cancel"
+            onClick={() => navigate(pathnameBack)}
           >
             Cancelar
           </button>

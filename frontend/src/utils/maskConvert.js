@@ -1,7 +1,6 @@
 export const maskCnpj = (cnpj) => {
   //retira os caracteres indesejados...
   cnpj = cnpj.replace(/[^\d]/g, "");
-  console.log(cnpj, cnpj.length)
 
   //realizar a formatação...
 

@@ -1,4 +1,8 @@
 const TYPES = {
+  wrongLogin: {
+    code: 401,
+    message: 'Email and/or password incorrect, try again with the correct',
+  },
   notFound: {
     code: 404,
     message: 'Not Found',
@@ -10,6 +14,8 @@ const TYPES = {
 };
 
 const handdleGenericErrors = (error, _request, response, _next) => {
+  console.log(error, 'ERRO');
+
   if (TYPES[error]) {
     const { code, message } = TYPES[error];
     return response.status(code).json({ message });
@@ -18,7 +24,6 @@ const handdleGenericErrors = (error, _request, response, _next) => {
     const [details] = error.details;
     return response.status(400).json({ message: details.message });
   }
-  console.log(error);
   return response.status(500).json({ message: 'Internal error' });
 };
 

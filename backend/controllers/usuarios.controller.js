@@ -1,45 +1,108 @@
-const { usuarios: Usuarios } = require('../models');
+const { usuarios: Usuarios, permissoes: Permissoes } = require('../models');
+const bcrypt = require('bcryptjs');
 
-const get = async (require, response, _next) => {
-  const query = require.query;
+const login = async (require, response, next) => {
+  try {
+    const { email, senha } = require.body;
 
-  const usuarios = await Usuarios.findAll({
-    where: query,
-    attributes: [
-      'id',
-      'nome',
-      'email',
-      'permissao',
-      'status',
-      'createdAt',
-      'updatedAt',
-    ],
-  });
+    const userFounded = await Usuarios.findOne({ where: { email } });
 
-  return response.status(200).json(usuarios);
+    if(!userFounded) throw 'notFound';
+
+    const passwordCrypt = await bcrypt.compare(senha, userFounded.senha);
+
+    if (!passwordCrypt) throw 'wrongLogin';
+
+    const user = await Usuarios.findOne({
+      where: { email },
+      attributes: [
+        'id',
+        'nome',
+        'email',
+        'permissao',
+        'status',
+        'createdAt',
+        'updatedAt',
+      ],
+    });
+
+    const permissaoInfo = await Permissoes.findByPk(user.dataValues.permissao);
+
+    return response.status(200).json({...user.dataValues, permissao: permissaoInfo.level, permissaoInfo });
+  } catch (error) {
+    return next(error);
+  }
 };
 
-const update = async (require, response, _next) => {
-  const { id } = require.params;
-  const { body } = require;
 
-  await Usuarios.update(body, { where: { id }});
+const get = async (require, response, next) => {
+  try {
+    const query = require.query;
 
-  return response.status(200).json({ id, ...body });
+    const usuarios = await Usuarios.findAll({
+      where: query,
+      attributes: [
+        'id',
+        'nome',
+        'email',
+        'permissao',
+        'status',
+        'createdAt',
+        'updatedAt',
+      ],
+    });
+
+    const usuariosComPermissao = await Promise.all(
+      usuarios.map(async (user) => ({...user.dataValues, permissao: await Permissoes.findByPk(user.dataValues.permissao)})),
+    );
+
+    return response.status(200).json(usuariosComPermissao);
+  } catch (e) {
+    return next(e);
+  }
+};
+
+const update = async (require, response, next) => {
+  try {
+    const { id } = require.params;
+    const { body } = require;
+
+    if (body.senha) {
+      body.senha = await bcrypt.hash(body.senha, 10);
+    }
+
+    await Usuarios.update(body, { where: { id }});
+
+    return response.status(200).json({ id, ...body });
+  } catch (e) {
+    return next(e);
+  }
 };
 
 const create = async (require, response, next) => {
-  const { body } = require;
+  try {
+    const { email, nome, senha, empresaId, permissao, status } = require.body;
 
-  const comment = await Usuarios.create(body);
+    const password = await bcrypt.hash(senha, 10);
 
-  return response.status(201).json(comment);
+    const usuario = await Usuarios.create({ email, nome, senha: password, empresaId, permissao, status });
+
+    const permissaoGet = await Permissoes.findByPk(usuario.dataValues.permissao);
+
+    return response.status(201).json({...usuario.dataValues, permissao: ({...permissaoGet.dataValues})});
+  } catch (e) {
+    return next(e);
+  }
 };
 
-const remove = async (require, response, _next) => {
-  const { id } = require.params;
-  await Usuarios.destroy({ where: { id }});
-  return response.status(204).end();
+const remove = async (require, response, next) => {
+  try {
+    const { id } = require.params;
+    await Usuarios.destroy({ where: { id }});
+    return response.status(204).end();
+  } catch (e) {
+    return next(e);
+  }
 };
 
 module.exports = {
@@ -47,4 +110,5 @@ module.exports = {
   create,
   update,
   remove,
+  login,
 };

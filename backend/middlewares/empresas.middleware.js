@@ -7,7 +7,7 @@ const get = async (_require, _response, next) => next();
 const remove = async (require, _response, next) => {
   const { id } = require.params;
 
-  const validate = await removeValidation.validate({ id });
+  const validate = await removeValidation.validateAsync({ id });
   if(validate.error) return next(validate.error);
 
   const empresaExists = await Empresas.findByPk(id);
@@ -19,7 +19,7 @@ const remove = async (require, _response, next) => {
 const create = async (require, _response, next) => {
   const { body } = require;
 
-  const validate = await createValidation.validate(body);
+  const validate = await createValidation.validateAsync(body);
   if(validate.error) return next(validate.error);
 
   return next();
@@ -29,7 +29,7 @@ const update = async (require, _response, next) => {
   const { body } = require;
   const { id } = require.params;
 
-  const validate = await updateValidation.validate({...body, id});
+  const validate = await updateValidation.validateAsync({...body, id});
   if(validate.error) return next(validate.error);
 
   const empresaExists = await Empresas.findByPk(id);

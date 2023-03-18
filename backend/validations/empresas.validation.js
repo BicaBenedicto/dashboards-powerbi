@@ -1,4 +1,3 @@
-
 const Joi = require('joi');
 
 const Empresas = {
@@ -7,23 +6,23 @@ const Empresas = {
     nome: Joi.string().min(2),
     cnpj: Joi.string(),
     razaoSocial: Joi.string(),
-    email: Joi.string(),
-    responsavel: Joi.string(),
-    emailResponsavel: Joi.string(),
-    telefoneResponsavel: Joi.string(),
-    dashboardLink: Joi.string(),
-    status: Joi.string(),
+    responsaveis: Joi.array().items(Joi.object({
+      nome: Joi.string(),
+      email: Joi.string(),
+      telefone: Joi.string(),
+    })),
+    status: Joi.boolean(),
   }),
   create: Joi.object({
     nome: Joi.string().min(2).required(),
     cnpj: Joi.string().required(),
     razaoSocial: Joi.string().required(),
-    email: Joi.string().required(),
-    responsavel: Joi.string().required(),
-    emailResponsavel: Joi.string().required(),
-    telefoneResponsavel: Joi.string(),
-    dashboardLink: Joi.string(),
-    status: Joi.string(),
+    responsaveis: Joi.array().items(Joi.object({
+      nome: Joi.string().required(),
+      email: Joi.string().required(),
+      telefone: Joi.string().required(),
+    })),
+    status: Joi.boolean(),
   }),
   remove: Joi.object({
     id: Joi.number().required(),

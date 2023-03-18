@@ -18,22 +18,7 @@ module.exports = {
       razaoSocial: {
         type: Sequelize.STRING
       },
-      email: {
-        type: Sequelize.STRING
-      },
-      responsavel: {
-        type: Sequelize.STRING
-      },
-      emailResponsavel: {
-        type: Sequelize.STRING
-      },
-      telefoneResponsavel: {
-        type: Sequelize.STRING
-      },
       status: {
-        type: Sequelize.STRING
-      },
-      dashboardLink: {
         type: Sequelize.STRING
       },
       createdAt: {
