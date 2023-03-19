@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prestart": "npx sequelize db:create && npx sequelize db:migrate",
-    "init": "npm run prestart && npx sequelize db:seed:all && npm run start",
+    "create": "npm run prestart && npx sequelize db:seed:all && npm run start",
     "start": "nodemon index.js",
     "dev": "nodemon index.js",
     "lint": "eslint . --fix --ext .js,.jsx,.ts,.tsx"
