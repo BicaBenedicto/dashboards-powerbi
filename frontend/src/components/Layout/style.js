@@ -32,6 +32,12 @@ header.header-layout {
       margin: 0;
     }
   }
+
+  button.menu-button {
+    background-color: transparent;
+    display: none;
+    margin-left: 10px;
+  }
 }
 
 section.section-layout {
@@ -127,6 +133,58 @@ section.section-layout {
     min-height: 80vh;
     height: 100%;
     width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  header.header-layout {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 200;
+  
+    button.menu-button {
+      display: block;
+    }
+  }
+
+  section.section-layout {
+    margin-top: 100px;
+
+    aside.aside-layout {
+      display: none;
+
+      &.active {
+        display: flex;
+        transition: 5s;
+        position: absolute;
+        width: 100%;
+        z-index: 250;
+
+        nav {
+          width: 100%;
+  
+          ul {
+            li {
+              button {
+                svg {
+                  color: ${({theme}) => theme.secondaryText};
+                  width: 20%;
+                }
+  
+                span {
+                  color: ${({theme}) => theme.secondaryText};
+                  margin-left: 5px;
+                  transition: 0.1s;
+                  transform: scale(1) translateX(0);
+                }
+  
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 `;

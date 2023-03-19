@@ -30,6 +30,17 @@ export const login = async (body) => {
   }
 };
 
+export const forgetPassword = async (body) => {
+  try {
+    const { data } = await API.post('/usuarios/forget-password', body);
+
+    return data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+
 export const update = async (id, body) => {
   try {
     const { data } = await API.put(`/usuarios/${id}`, body);

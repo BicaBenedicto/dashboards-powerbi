@@ -1,6 +1,6 @@
 const { usuarios: Usuarios } = require('../models');
 const { Usuarios: UsuariosValidation } = require('../validations');
-const { remove: removeValidation, create: createValidation, update: updateValidation, login: loginValidation } = UsuariosValidation;
+const { remove: removeValidation, create: createValidation, update: updateValidation, login: loginValidation, forgetPassword: forgetPasswordValidate } = UsuariosValidation;
 
 const get = async (_require, _response, next) => next();
 
@@ -25,6 +25,19 @@ const login = async (require, _response, next) => {
     const { body } = require;
 
     const validate = await loginValidation.validateAsync(body);
+    if(validate.error) return next(validate.error);
+  
+    return next();
+  } catch (e) {
+    return next(e);
+  }
+};
+
+const forgetPassword = async (require, _response, next) => {
+  try {
+    const { body } = require;
+
+    const validate = await forgetPasswordValidate.validateAsync(body);
     if(validate.error) return next(validate.error);
   
     return next();
@@ -68,5 +81,6 @@ module.exports = {
   remove,
   create,
   update,
-  login
+  login,
+  forgetPassword,
 };

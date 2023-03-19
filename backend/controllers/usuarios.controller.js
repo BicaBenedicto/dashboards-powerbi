@@ -1,5 +1,7 @@
-const { usuarios: Usuarios, permissoes: Permissoes } = require('../models');
 const bcrypt = require('bcryptjs');
+const { usuarios: Usuarios, permissoes: Permissoes } = require('../models');
+const emailSend = require('../services/email.service');
+const randomPassword = require('../utils/randomPassword.util');
 
 const login = async (require, response, next) => {
   try {
@@ -105,10 +107,36 @@ const remove = async (require, response, next) => {
   }
 };
 
+const forgetPassword = async (require, response, next) => {
+  try {
+    const { email } = require.body;
+
+    const password = await randomPassword(10);
+
+    const tempPassword = await bcrypt.hash(password, 10);
+
+    await emailSend.send(
+      email,
+      '[Dashboard de Power BI]! Aqui está o seu novo acesso 🔑',
+      null,
+      `Olá, <br /><br />
+      Aqui está o seu acesso: <br /><br />
+      <b>Usuário</b>: ${email}<br />
+      <b>Senha</b>: ${tempPassword} <br /><br />
+      `
+    );
+
+    return response.status(200).json({ message: 'Enviado nova senha' });
+  } catch (e) {
+    return next(e);
+  }
+}
+
 module.exports = {
   get,
   create,
   update,
   remove,
   login,
+  forgetPassword,
 };

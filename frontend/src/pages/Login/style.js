@@ -12,7 +12,6 @@ export const Container = styled.section`
 
   h1#title-login {
     display: block;
-    padding: 20px 0 100px;
     font-size: 3em;
   }
 
@@ -97,6 +96,17 @@ export const Container = styled.section`
         margin-top: 20px;
         width: 100%;
       }
+    }
+  }
+
+  @media only screen and (max-width: 1000px) {
+    section {
+      width: 95%;
+    }
+
+    button.display-password {
+      right: 15px;
+      bottom: 7px!important;
     }
   }
 `;

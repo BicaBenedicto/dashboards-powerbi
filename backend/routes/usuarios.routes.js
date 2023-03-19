@@ -5,6 +5,7 @@ const usuariosMiddleware = require('../middlewares/usuarios.middleware');
 const router = express.Router();
 
 router.post('/login', usuariosMiddleware.login, usuariosController.login);
+router.post('/forget-password', usuariosMiddleware.forgetPassword, usuariosController.forgetPassword);
 router.get('/', usuariosMiddleware.get, usuariosController.get);
 router.post('/', usuariosMiddleware.create, usuariosController.create);
 router.post('/', usuariosMiddleware.create, usuariosController.create);

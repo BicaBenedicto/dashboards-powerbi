@@ -2,13 +2,16 @@ import { useState } from 'react';
 
 const { Form } = require('./style');
 
+const { Usuarios } = require('../../../../services/api.service');
+
 export default function ForgetPassword({ toggleInSignInPage }) {
   const [email, setEmail] = useState('');
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      return console.log('HEY');
+      await Usuarios.forgetPassword({ email });
+      return toggleInSignInPage(true);
     } catch (e) {
       console.error(e);
     }

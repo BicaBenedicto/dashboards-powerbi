@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prestart": "npx sequelize db:create && npx sequelize db:migrate",
+    "init": "npm run prestart && npx sequelize db:seed:all && npm run start",
     "start": "nodemon index.js",
     "dev": "nodemon index.js",
     "lint": "eslint . --fix --ext .js,.jsx,.ts,.tsx"
@@ -20,6 +21,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
+    "nodemailer": "^6.9.1",
     "path": "^0.12.7"
   },
   "devDependencies": {

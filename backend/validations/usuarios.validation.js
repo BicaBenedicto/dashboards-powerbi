@@ -1,6 +1,9 @@
 const Joi = require('joi');
 
 const Usuarios = {
+  forgetPassword: Joi.object({
+    email: Joi.string().required(),
+  }),
   login: Joi.object({
     email: Joi.string().required(),
     senha: Joi.string().required(),

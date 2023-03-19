@@ -1,5 +1,8 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  Menu
+} from '@mui/icons-material';
 
 import { ThemeContext } from '../../App';
 import MENU from '../../assets/menu';
@@ -10,7 +13,7 @@ export default function Layout({ children }) {
   const { user, setUser } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
-  // const [displayNameMenu, toggleDisplayNameMenu] = useState(false);
+  const [displayNameMenu, toggleDisplayNameMenu] = useState(false);
 
   useEffect(() => {
     const userSaved = localStorage.getItem('@LOGIN');
@@ -19,7 +22,7 @@ export default function Layout({ children }) {
       const userParse = JSON.parse(userSaved);
       setUser(userParse);
     }
-  }, []);
+  }, [setUser]);
 
   useEffect(() => {
     if (MENU.some((item) => (location.pathname.includes(item.path) || location.pathname === item.path) && (
@@ -29,11 +32,12 @@ export default function Layout({ children }) {
       if (!user.nome) navigate('/');
       else navigate('/dashboard');
     }
-  }, [location]);
+  }, [location, user, navigate]);
 
   return (
     <Container>
       <header className='header-layout'>
+        <button type="button" className="menu-button" onClick={() => toggleDisplayNameMenu(!displayNameMenu)}><Menu /></button>
         <h1>Dashboards Power BI</h1>
         <div>
           <h4>{user?.nome}</h4>
@@ -41,12 +45,12 @@ export default function Layout({ children }) {
         </div>
       </header>
       <section className='section-layout'>
-        <aside className='aside-layout'>
+        <aside className={`aside-layout ${displayNameMenu ? 'active' : ''}`}>
           <nav>
             <ul>
               {MENU.filter((item) => item.permission <= Number(user?.permissao)).map((item) => 
                 <li key={item.name}>
-                  <button type="button" onClick={() => navigate(item.path)}>
+                  <button type="button" onClick={() => {navigate(item.path); toggleDisplayNameMenu(false)}}>
                   {item.icon}
                   <span>{item.name}</span>
                   </button>
