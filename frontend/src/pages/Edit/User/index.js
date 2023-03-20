@@ -121,7 +121,7 @@ export default function EditUsers() {
               value={permission}
               onChange={(e) => setPermission(e.target.value)}
             >
-              {companies.find((comp) => comp.id === Number(company))?.permissoes?.length > 0 && companies.find((comp) => comp.id === Number(company))?.permissoes.filter((perm) => perm.id < Number(user.permissao)).map((perm) => <option key={perm.id} value={perm.id}>{perm.nome}</option>)}
+              {companies.find((comp) => comp.id === Number(company))?.permissoes?.length > 0 && companies.find((comp) => comp.id === Number(company))?.permissoes.filter((perm) => perm.level < Number(user.permissao)).map((perm) => <option key={perm.id} value={perm.id}>{perm.nome}</option>)}
             </select>
           </label>
           <h3 className="date-register">Data do Cadastro: {new Date(createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })}</h3>

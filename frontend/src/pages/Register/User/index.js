@@ -28,16 +28,24 @@ export default function RegisterUsers() {
   useEffect(() => {
     (async () => {
       const empresas = await Empresas.get();
+      console.log(empresas, 'empresas');
+      const empresasFiltered = empresas.filter((empresa) => (user?.permissao === 1000 || empresa.id === user?.permissaoInfo?.empresaId));
 
-      setCompanies(empresas);
-      setCompany(empresas[0].id);
-      setPermission(empresas[0]?.permissoes[0]?.id);
+      console.log(empresasFiltered, 'filter');
+
+      setCompanies(empresasFiltered);
+      setCompany(empresasFiltered[0].id);
+      setPermission(empresasFiltered[0]?.permissoes[0]?.id);
     })();
   }, []);
 
   const onSubmitDashboard = async (e) => {
     e.preventDefault();
     try {
+
+      if (Number(user?.permisaoInfo.id) === Number(permission)) {
+        throw 'Não pode se colocar permissão igual a sua, somente inferior';
+      }
       await Usuarios.create({
         nome: name,
         email,
@@ -118,7 +126,7 @@ export default function RegisterUsers() {
               value={permission}
               onChange={(e) => setPermission(e.target.value)}
             >
-              {companies.find((comp) => comp.id === Number(company))?.permissoes?.length > 0 && companies.find((comp) => comp.id === Number(company))?.permissoes.filter((perm) => perm.id < Number(user.permissao)).map((perm) => <option key={perm.id} value={perm.id}>{perm.nome}</option>)}
+              {companies.find((comp) => comp.id === Number(company))?.permissoes?.length > 0 && companies.find((comp) => comp.id === Number(company))?.permissoes.filter((perm) => perm.level < Number(user.permissao)).map((perm) => <option key={perm.id} value={perm.id}>{perm.nome}</option>)}
             </select>
           </label>
           <h3 className="date-register">Data do Cadastro: {new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })}</h3>

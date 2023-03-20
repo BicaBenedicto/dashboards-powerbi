@@ -39,7 +39,7 @@ export default function AdminPagesUsers() {
   const navigate = useNavigate();
   const location = useLocation();
   const pathnameBack = location.pathname.split('/').filter((_v, index, array) => index !== (array.length - 1)).join('/');
-  const [company, setCompany] = useState('');
+  const [company, setCompany] = useState(user?.permissaoInfo?.empresaId);
   const [companies, setCompanies] = useState([]);
   const [users, setUsers] = useState([]);
   const [usersToSend, setUsersToSend] = useState([]);
@@ -49,7 +49,7 @@ export default function AdminPagesUsers() {
     (async () => {
       const empresas = await Empresas.get();
       setCompanies(empresas.concat({ id: 0, razaoSocial: 'Todos' }));
-      setCompany('0');
+      setCompany(user?.permissaoInfo?.empresaId);
     })();
   }, []);
 
@@ -63,20 +63,29 @@ export default function AdminPagesUsers() {
         setHeaderTable([]);
         return;
       }
+      console.log(user);
 
-      const usersFormatted = usuarios.map((userItem) => {
+      let usersFormatted = usuarios.filter((userItem) =>  user?.permissao === 1000 || userItem?.permissao?.empresaId === user?.permissaoInfo?.empresaId).map((userItem) => {
         return ({
           id: userItem.id,
           Nome: userItem.nome,
           Email: userItem.email,
           Permissão: userItem?.permissao?.nome,
-          Empresa: companies.find((comp) => comp.id === Number(userItem?.permissao?.empresaId))?.razaoSocial,
           'Data de criação': new Date(userItem.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           'Ultima atualização': new Date(userItem.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           Status: Number(user.permissao) > userItem?.permissao?.id ? <StatusSwitch key={userItem.id} user={userItem} callback={usersToSendDefine} /> : <></>,
           Editar: Number(user.permissao) > userItem?.permissao?.id ? <ButtonEdit key={userItem.id} id={userItem.id} /> : <></>
         })
       });
+
+      if (user?.permissao === 1000) {
+        usersFormatted = usersFormatted.map((userItem) => {
+          return ({
+            ...userItem,
+            Empresa: companies.find((comp) => comp.id === Number(userItem?.permissao?.empresaId))?.razaoSocial,
+          })
+        });
+      }
 
       const header = usersFormatted[0] ? Object.entries(usersFormatted[0]).map((permission) => ({
         id: permission[0],

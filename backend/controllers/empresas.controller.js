@@ -29,7 +29,7 @@ const get = async (require, response, next) => {
       empresas.map(async (empresa) => ({
         ...empresa.dataValues,
         responsaveis: await Responsaveis.findAll({ where: { empresaId: empresa.id }, attributes: ['id', 'nome', 'email', 'telefone']}),
-        permissoes: await Permissoes.findAll({ where: { empresaId: empresa.id }, attributes: ['id', 'nome', 'status']}),
+        permissoes: await Permissoes.findAll({ where: { empresaId: empresa.id }, attributes: ['id', 'nome', 'level', 'status']}),
       }))
     );
 

@@ -20,8 +20,8 @@ module.exports = {
       empresaId: 1,
     }], {});
     await queryInterface.bulkInsert('usuarios', [{
-      nome: 'Root',
-      email: 'gabrielpbenedicto@gmail.com',
+      nome: 'Ramon TI',
+      email: 'contato@ramonti.com.br',
       permissao: 1,
       status: true,
       createdAt: new Date(),
