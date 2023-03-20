@@ -331,7 +331,7 @@ export default function EnhancedTable({ rows, headCells, title }) {
                       >
                         {row.id}
                       </TableCell>
-                      {Object.entries(row).filter((rw) => rw[0] !== 'id').map((rw) => <TableCell key={rw[0] + ''  + rw[1]} align="center">{rw[1]}</TableCell>)}
+                      {Object.entries(row).filter((rw) => rw[0] !== 'id').map((rw) => <TableCell style={{ maxWidth: '20vw', overflowWrap: 'break-word' }} key={rw[0] + ''  + rw[1]} align="center">{rw[1]}</TableCell>)}
                     </TableRow>
                   );
                 })}
