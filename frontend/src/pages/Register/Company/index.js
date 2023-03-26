@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Switch } from "@mui/material";
 import {
@@ -10,8 +10,10 @@ import { Container } from './style';
 
 import { maskCnpj, convertTel } from '../../../utils/maskConvert';
 import { Empresas } from '../../../services/api.service';
+import { ThemeContext } from "../../../App";
 
 export default function RegisterCompany() {
+  const { setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const pathnameBack = location.pathname.split('/').filter((_v, index, array) => index !== (array.length - 1)).join('/');
@@ -86,8 +88,9 @@ export default function RegisterCompany() {
       setEmailResponsavel('');
       setTelefoneResponsavel('');
       setResponsaveis([]);
-    } catch(e) {
-      throw e;
+      setTooltipDetails({ icon: 'sucess', text: 'Empresa cadastrada com sucesso'});
+    } catch (e) {
+      setTooltipDetails({ icon: 'error', text: 'Erro ao cadastrar empresa'});
     }
   };
 

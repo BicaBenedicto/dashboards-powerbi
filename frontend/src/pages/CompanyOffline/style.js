@@ -10,43 +10,21 @@ export const Container = styled.section`
   height: 100vh;
   width: 100%;
 
-  .tooltip-layout {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    background-color: ${({theme}) => theme.secondaryBackground};
-    border-radius: 10px;
-    padding: 10px 5px;
-    position: fixed;
-    right: 20px;
-    top: 20px;
-    z-index: 225;
-  
-    div {
-      align-items: center;
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-  
-    }
-    svg {
-      margin: 0 5px;
-      padding: 0;
-    }
-    button {
-      background-color: transparent;
-      margin: 0 5px;
-    }
-  }
-
   h1#title-login {
     display: block;
     font-size: 3em;
   }
+  span {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+  }
 
   section {
     background: white;
-    padding-bottom: 15vh;
+    padding-bottom: 5vh;
     width: 40%;
 
     h3 {
@@ -63,7 +41,7 @@ export const Container = styled.section`
         height: 4px;
         width: 100%;
         &.active {
-          background-color: ${({theme}) => theme.primaryBackground}!important;
+          background-color: red!important;
         }
       }
     }

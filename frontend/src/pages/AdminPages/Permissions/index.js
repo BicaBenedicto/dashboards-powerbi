@@ -1,5 +1,5 @@
 import { Switch } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Edit,
@@ -9,6 +9,7 @@ import { Container } from './style';
 import Table from '../../../components/Table';
 
 import { Empresas, Permissoes } from '../../../services/api.service';
+import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ permission, callback }) => {
   const initStatus = !!Number(permission?.status);
@@ -34,6 +35,7 @@ const ButtonEdit = ({ id }) => {
 };
 
 export default function AdminPagesPermissions() {
+  const { setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const pathnameBack = location.pathname.split('/').filter((_v, index, array) => index !== (array.length - 1)).join('/');
@@ -92,12 +94,13 @@ export default function AdminPagesPermissions() {
   const onSubmitPermission = async (e) => {
     e.preventDefault();
     try {
-      await Promise.all(permissionsToSend.map(async (permission) => await Permissoes.update(permission.id, {
+      await Promise.all(permissionsToSend.map((permission) => Permissoes.update(permission.id, {
         status: permission.status,
       })
     ));
+      setTooltipDetails({ icon: 'sucess', text: 'Status das permissões salvas com sucesso'});
     } catch (e) {
-      throw e;
+      setTooltipDetails({ icon: 'error', text: 'Erro ao salvar status das permissões'});
     }
   };
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Switch } from "@mui/material";
 import {
@@ -10,8 +10,10 @@ import { Container } from './style';
 
 import { maskCnpj, convertTel } from '../../../utils/maskConvert';
 import { Empresas } from '../../../services/api.service';
+import { ThemeContext } from "../../../App";
 
 export default function EditCompany() {
+  const { setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
@@ -92,8 +94,9 @@ export default function EditCompany() {
         status: companyStatus,
         responsaveis,
       });
-    } catch(e) {
-      throw e;
+      setTooltipDetails({ icon: 'sucess', text: 'Empresa atualizada com sucesso'});
+    } catch (e) {
+      setTooltipDetails({ icon: 'error', text: 'Erro ao atualizar empresa'});
     }
   };
 

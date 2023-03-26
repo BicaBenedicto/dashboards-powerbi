@@ -1,12 +1,14 @@
 import { Switch } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 import { Container } from './style';
 
 import { Empresas, Dashboards } from '../../../services/api.service';
+import { ThemeContext } from "../../../App";
 
 export default function EditDashboard() {
+  const { setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
@@ -44,8 +46,9 @@ export default function EditDashboard() {
         empresaId: Number(company),
         status: dashboardStatus,
       });
+      setTooltipDetails({ icon: 'sucess', text: 'Dashboard atualizado com sucesso'});
     } catch (e) {
-      throw e;
+      setTooltipDetails({ icon: 'error', text: 'Erro ao atualizar dashboard'});
     }
   };
 

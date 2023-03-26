@@ -12,7 +12,7 @@ import { Usuarios } from '../../../../services/api.service';
 const { Form } = require('./style');
 
 export default function SignIn({ toggleInSignInPage }) {
-  const { user, setUser } = useContext(ThemeContext);
+  const { user, setUser, setTooltipDetails } = useContext(ThemeContext);
 
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -24,13 +24,20 @@ export default function SignIn({ toggleInSignInPage }) {
     try {
       const user = await Usuarios.login({ email, senha: password });
 
-      if(!user) throw new Error('Usuário não encontrado');
+      if(!user) {
+        setTooltipDetails({ icon: 'error', text: 'Usuário(a) não encontrado'});
+        return;
+      };
+      if(user?.empresa?.status === "0") {
+        localStorage.removeItem('@LOGIN');
+        setUser({});
+        return navigate('/company-offline');
+      }
       setUser(user);
       localStorage.setItem('@LOGIN', JSON.stringify(user));
-      return ;
+      setTooltipDetails({ icon: 'sucess', text: 'Logado com sucesso'});
     } catch (e) {
-      console.error(e);
-      return;
+      setTooltipDetails({ icon: 'error', text: 'Email e/ou senha incorretos, por favor tente novamente'});
     }
   };
 
@@ -42,9 +49,18 @@ export default function SignIn({ toggleInSignInPage }) {
       setUser(userParse);
     }
 
-    if (user?.id) {
-      navigate('/dashboard');
-    }
+    (async () => {
+      const [userApi] = await Usuarios.get(`id=${user?.id}`);
+
+      if (userApi?.empresa?.status === '0') {
+        localStorage.removeItem('@LOGIN');
+        setUser({});
+        navigate('/company-offline');
+      }
+      if (userApi?.empresa?.status === '1') {
+        navigate('/dashboard');
+      }
+    })();
   }, [user, navigate]);
 
   return (

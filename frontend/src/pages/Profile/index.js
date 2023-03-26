@@ -13,7 +13,7 @@ import { Empresas, Usuarios } from '../../services/api.service';
 import { ThemeContext } from "../../App";
 
 export default function Profile() {
-  const { user, setUser } = useContext(ThemeContext);
+  const { user, setUser, setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
@@ -58,8 +58,9 @@ export default function Profile() {
           email,
         });
       }
+      setTooltipDetails({ icon: 'sucess', text: 'Perfil atualizado com sucesso'});
     } catch (e) {
-      throw e;
+      setTooltipDetails({ icon: 'error', text: 'Erro ao atualizar perfil'});
     }
   };
 

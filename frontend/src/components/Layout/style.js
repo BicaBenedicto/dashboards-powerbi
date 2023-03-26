@@ -5,11 +5,41 @@ display: flex;
 flex-direction: column;
 background-color: ${({theme}) => theme.background};
 color: ${({theme}) => theme.text};
+position: relative;
 min-height: 100vh;
 width: 100%;
 
 h1 {
   margin: 10px 0;
+}
+
+.tooltip-layout {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  background-color: ${({theme}) => theme.secondaryBackground};
+  border-radius: 10px;
+  padding: 10px 5px;
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  z-index: 225;
+
+  div {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+  }
+  svg {
+    margin: 0 5px;
+    padding: 0;
+  }
+  button {
+    background-color: transparent;
+    margin: 0 5px;
+  }
 }
 
 header.header-layout {

@@ -6,7 +6,7 @@ export const get = async (query = '') => {
 
     return data;
   } catch (e) {
-    console.error(e);
+    throw e;
   }
 };
 
@@ -16,17 +16,17 @@ export const create = async (body) => {
 
     return data;
   } catch (e) {
-    console.error(e);
+    throw e;
   }
 };
 
 export const update = async (id, body) => {
   try {
     const { data } = await API.put(`/empresas/${id}`, body);
-
+    console.log(data, 'data')
     return data;
   } catch (e) {
-    console.error(e);
+    throw e;
   }
 };
 
@@ -36,6 +36,6 @@ export const remove = async (id) => {
 
     return data;
   } catch (e) {
-    console.error(e);
+    throw e;
   }
 };

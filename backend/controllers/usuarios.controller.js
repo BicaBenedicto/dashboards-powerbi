@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { usuarios: Usuarios, permissoes: Permissoes } = require('../models');
+const { usuarios: Usuarios, permissoes: Permissoes, empresas: Empresas } = require('../models');
 const emailSend = require('../services/email.service');
 const randomPassword = require('../utils/randomPassword.util');
 
@@ -22,15 +22,19 @@ const login = async (require, response, next) => {
         'nome',
         'email',
         'permissao',
+        'empresaId',
         'status',
         'createdAt',
         'updatedAt',
       ],
     });
 
-    const permissaoInfo = await Permissoes.findByPk(user.dataValues.permissao);
+    const [permissaoInfo, empresa] = await Promise.all([
+      Permissoes.findByPk(user.dataValues.permissao),
+      Empresas.findByPk(user.dataValues.empresaId),
+    ]);
 
-    return response.status(200).json({...user.dataValues, permissao: permissaoInfo.level, permissaoInfo });
+    return response.status(200).json({...user.dataValues, permissao: permissaoInfo.level, permissaoInfo, empresa });
   } catch (error) {
     return next(error);
   }
@@ -48,6 +52,7 @@ const get = async (require, response, next) => {
         'nome',
         'email',
         'permissao',
+        'empresaId',
         'status',
         'createdAt',
         'updatedAt',
@@ -55,7 +60,7 @@ const get = async (require, response, next) => {
     });
 
     const usuariosComPermissao = await Promise.all(
-      usuarios.map(async (user) => ({...user.dataValues, permissao: await Permissoes.findByPk(user.dataValues.permissao)})),
+      usuarios.map(async (user) => ({...user.dataValues, permissao: await Permissoes.findByPk(user.dataValues.permissao), empresa: await Empresas.findByPk(user.dataValues.empresaId)})),
     );
 
     return response.status(200).json(usuariosComPermissao);
@@ -91,7 +96,7 @@ const create = async (require, response, next) => {
 
     const permissaoGet = await Permissoes.findByPk(usuario.dataValues.permissao);
 
-    return response.status(201).json({...usuario.dataValues, permissao: ({...permissaoGet.dataValues})});
+    return response.status(201).json({...usuario.dataValues, senha: '******', permissao: ({...permissaoGet.dataValues})});
   } catch (e) {
     return next(e);
   }

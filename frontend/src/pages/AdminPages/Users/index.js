@@ -35,7 +35,7 @@ const ButtonEdit = ({ id }) => {
 };
 
 export default function AdminPagesUsers() {
-  const { user } = useContext(ThemeContext);
+  const { user, setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const pathnameBack = location.pathname.split('/').filter((_v, index, array) => index !== (array.length - 1)).join('/');
@@ -63,41 +63,41 @@ export default function AdminPagesUsers() {
         setHeaderTable([]);
         return;
       }
-      console.log(user);
 
       let usersFormatted = usuarios.filter((userItem) =>  user?.permissao === 1000 || userItem?.permissao?.empresaId === user?.permissaoInfo?.empresaId).map((userItem) => {
-        return ({
+        return user?.permissao === 1000 ? ({
+          id: userItem.id,
+          Nome: userItem.nome,
+          Email: userItem.email,
+          Permissão: userItem?.permissao?.nome,
+          Empresa: userItem?.empresa?.razaoSocial,
+          'Data de criação': new Date(userItem.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+          'Ultima atualização': new Date(userItem.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+          Status: (Number(user.permissao) > userItem?.permissao?.id && Number(userItem?.permissao) !== 1000 )? <StatusSwitch key={userItem.id} user={userItem} callback={usersToSendDefine} /> : <></>,
+          Editar: Number(user.permissao) > userItem?.permissao?.id ? <ButtonEdit key={userItem.id} id={userItem.id} /> : <></>
+        }) : ({
           id: userItem.id,
           Nome: userItem.nome,
           Email: userItem.email,
           Permissão: userItem?.permissao?.nome,
           'Data de criação': new Date(userItem.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           'Ultima atualização': new Date(userItem.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
-          Status: Number(user.permissao) > userItem?.permissao?.id ? <StatusSwitch key={userItem.id} user={userItem} callback={usersToSendDefine} /> : <></>,
+          Status: (Number(user.permissao) > userItem?.permissao?.id && Number(userItem?.permissao) !== 1000 )? <StatusSwitch key={userItem.id} user={userItem} callback={usersToSendDefine} /> : <></>,
           Editar: Number(user.permissao) > userItem?.permissao?.id ? <ButtonEdit key={userItem.id} id={userItem.id} /> : <></>
-        })
+        });
       });
 
-      if (user?.permissao === 1000) {
-        usersFormatted = usersFormatted.map((userItem) => {
-          return ({
-            ...userItem,
-            Empresa: companies.find((comp) => comp.id === Number(userItem?.permissao?.empresaId))?.razaoSocial,
-          })
-        });
-      }
-
-      const header = usersFormatted[0] ? Object.entries(usersFormatted[0]).map((permission) => ({
-        id: permission[0],
-        numeric: !isNaN(Number(permission[1])),
+      const header = usersFormatted[0] ? Object.entries(usersFormatted[0]).map((usuario) => ({
+        id: usuario[0],
+        numeric: !isNaN(Number(usuario[1])),
         disablePadding: false,
-        label: permission[0],
+        label: usuario[0],
       })) : [];
 
       setUsers(usersFormatted);
       setHeaderTable(header);
     })();
-  }, [company]);
+  }, [company, user]);
 
   const usersToSendDefine = async (permission, status) => {
     return setUsersToSend((usersToSend) => ([...usersToSend, {...permission, status}]));
@@ -106,12 +106,13 @@ export default function AdminPagesUsers() {
   const onSubmitPermission = async (e) => {
     e.preventDefault();
     try {
-      await Promise.all(usersToSend.map(async (users) => await Usuarios.update(users.id, {
+      await Promise.all(usersToSend.map((users) => Usuarios.update(users.id, {
         status: users.status,
       })
     ));
+      setTooltipDetails({ icon: 'sucess', text: 'Status dos usuários salvos com sucesso'});
     } catch (e) {
-      throw e;
+      setTooltipDetails({ icon: 'error', text: 'Erro ao salvar status dos usuários'});
     }
   };
 

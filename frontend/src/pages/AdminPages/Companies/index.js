@@ -1,5 +1,5 @@
 import { Switch } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Edit,
@@ -10,6 +10,7 @@ import Table from '../../../components/Table';
 
 import { Empresas } from '../../../services/api.service';
 import { maskCnpj } from '../../../utils/maskConvert';
+import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ company, callback }) => {
   const initStatus = !!Number(company?.status);
@@ -35,6 +36,7 @@ const ButtonEdit = ({ id }) => {
 };
 
 export default function AdminPagesCompanies() {
+  const { setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const pathnameBack = location.pathname.split('/').filter((_v, index, array) => index !== (array.length - 1)).join('/');
@@ -84,13 +86,13 @@ export default function AdminPagesCompanies() {
   const onSubmitCompanies = async (e) => {
     e.preventDefault();
     try {
-      await Promise.all(companiesToSend.map(async (company) => await Empresas.update(company.id, {
+      await Promise.all(companiesToSend.map((company) => Empresas.update(company.id, {
           status: company.status,
         })
       ));
-
+      setTooltipDetails({ icon: 'sucess', text: 'Status das empresas salvos com sucesso'});
     } catch (e) {
-      throw e;
+      setTooltipDetails({ icon: 'error', text: 'Erro ao salvar status das empresas'});
     }
   };
 

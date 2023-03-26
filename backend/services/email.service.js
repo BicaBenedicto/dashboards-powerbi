@@ -2,7 +2,7 @@ require('dotenv').config();
 const nodemailer = require('nodemailer');
 
 const env = process.env;
-  console.log(env.MAIL_HOST, env.MAIL_PORT, env.MAIL_AUTH_USER, env.MAIL_AUTH_PASSWORD);
+
 const transporter = nodemailer.createTransport({
   host: env.MAIL_HOST,
   port: Number(env.MAIL_PORT),
@@ -15,7 +15,6 @@ const transporter = nodemailer.createTransport({
 });
 
 async function send(to, subject, text, html = null) {
-  let t = '';
   try {
     const message = {
       from: env.MAIL_AUTH_USER,

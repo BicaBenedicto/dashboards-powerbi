@@ -1,5 +1,5 @@
 import { Switch } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Edit,
@@ -9,6 +9,7 @@ import { Container } from './style';
 import Table from '../../../components/Table';
 
 import { Empresas, Dashboards } from '../../../services/api.service';
+import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ dashboard, callback }) => {
   const initStatus = !!Number(dashboard?.status);
@@ -34,6 +35,7 @@ const ButtonEdit = ({ id }) => {
 };
 
 export default function AdminPagesDashboards() {
+  const { setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const pathnameBack = location.pathname.split('/').filter((_v, index, array) => index !== (array.length - 1)).join('/');
@@ -64,12 +66,12 @@ export default function AdminPagesDashboards() {
       }
 
       const dashboardFormatted = dashboards.map((dash) => {
-
         return ({
           id: dash.id,
           Nome: dash.nome,
           URL: dash.url,
           'Descrição': dash.descricao,
+          Empresa: companies.find((comp) => comp.id === dash?.empresaId)?.razaoSocial,
           Status: <StatusSwitch dashboard={dash} callback={dashboardsToSendDefine} />,
           Editar: <ButtonEdit id={dash.id} />
         })
@@ -97,12 +99,13 @@ export default function AdminPagesDashboards() {
   const onSubmitDashboard = async (e) => {
     e.preventDefault();
     try {
-      await Promise.all(dashboardsToSend.map(async (dash) => await Dashboards.update(dash.id, {
+      await Promise.all(dashboardsToSend.map((dash) => Dashboards.update(dash.id, {
         status: dash.status,
       })
     ));
+      setTooltipDetails({ icon: 'sucess', text: 'Status dos dashboards salvos com sucesso'});
     } catch (e) {
-      throw e;
+      setTooltipDetails({ icon: 'error', text: 'Erro ao salvar status dos dashboards'});
     }
   };
 

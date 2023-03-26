@@ -11,7 +11,7 @@ import { Empresas, Usuarios } from '../../../services/api.service';
 import { ThemeContext } from "../../../App";
 
 export default function EditUsers() {
-  const { user } = useContext(ThemeContext);
+  const { user, setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
@@ -52,8 +52,9 @@ export default function EditUsers() {
         // senha: password,
         status: usersStatus,
       });
+      setTooltipDetails({ icon: 'sucess', text: 'Usuário(a) atualizado(a) com sucesso'});
     } catch (e) {
-      throw e;
+      setTooltipDetails({ icon: 'error', text: 'Erro ao atualizar usuário(a)'});
     }
   };
 

@@ -1,11 +1,12 @@
 import { Switch } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Container } from './style';
 import Table from '../../../components/Table';
 
 import { Empresas, Dashboards, Permissoes } from '../../../services/api.service';
+import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ dashboard, permissaoId, callback }) => {
   const [status, setStatus] = useState(false);
@@ -19,6 +20,7 @@ const StatusSwitch = ({ dashboard, permissaoId, callback }) => {
 };
 
 export default function RegisterPermissions() {
+  const { setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const pathnameBack = location.pathname.split('/').filter((_v, index, array) => index !== (array.length - 1)).join('/');
@@ -85,8 +87,9 @@ export default function RegisterPermissions() {
       });
 
       setName('');
+      setTooltipDetails({ icon: 'sucess', text: 'Permissão cadastrada com sucesso'});
     } catch (e) {
-      throw e;
+      setTooltipDetails({ icon: 'error', text: 'Erro ao cadastrar permissão'});
     }
   };
 

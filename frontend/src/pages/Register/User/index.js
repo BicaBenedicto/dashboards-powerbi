@@ -12,7 +12,7 @@ import { Container } from './style';
 import { Empresas, Usuarios } from '../../../services/api.service';
 
 export default function RegisterUsers() {
-  const { user } = useContext(ThemeContext);
+  const { user, setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const pathnameBack = location.pathname.split('/').filter((_v, index, array) => index !== (array.length - 1)).join('/');
@@ -28,10 +28,7 @@ export default function RegisterUsers() {
   useEffect(() => {
     (async () => {
       const empresas = await Empresas.get();
-      console.log(empresas, 'empresas');
       const empresasFiltered = empresas.filter((empresa) => (user?.permissao === 1000 || empresa.id === user?.permissaoInfo?.empresaId));
-
-      console.log(empresasFiltered, 'filter');
 
       setCompanies(empresasFiltered);
       setCompany(empresasFiltered[0].id);
@@ -42,10 +39,6 @@ export default function RegisterUsers() {
   const onSubmitDashboard = async (e) => {
     e.preventDefault();
     try {
-
-      if (Number(user?.permisaoInfo.id) === Number(permission)) {
-        throw 'Não pode se colocar permissão igual a sua, somente inferior';
-      }
       await Usuarios.create({
         nome: name,
         email,
@@ -57,8 +50,9 @@ export default function RegisterUsers() {
 
       setName('');
       setEmail('');
+      setTooltipDetails({ icon: 'sucess', text: 'Usuário(a) cadastrado(a) com sucesso'});
     } catch (e) {
-      throw e;
+      setTooltipDetails({ icon: 'error', text: 'Erro ao cadastrar usuário(a)'});
     }
   };
 

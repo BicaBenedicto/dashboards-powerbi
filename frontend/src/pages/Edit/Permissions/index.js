@@ -1,11 +1,12 @@
 import { Switch } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 import { Container } from './style';
 import Table from '../../../components/Table';
 
 import { Empresas, Dashboards, Permissoes } from '../../../services/api.service';
+import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ dashboard, permissaoId, callback }) => {
   const initStatus = dashboard?.permissoes?.some((perm) => perm.permissaoId === Number(permissaoId));
@@ -20,6 +21,7 @@ const StatusSwitch = ({ dashboard, permissaoId, callback }) => {
 };
 
 export default function EditPermissions() {
+  const { setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
@@ -97,8 +99,9 @@ export default function EditPermissions() {
         status: permissionsStatus,
         dashboards: dashboardsToSend,
       });
+      setTooltipDetails({ icon: 'sucess', text: 'Permissão atualizada com sucesso'});
     } catch (e) {
-      throw e;
+      setTooltipDetails({ icon: 'error', text: 'Erro ao atualizar permissão'});
     }
   };
 
