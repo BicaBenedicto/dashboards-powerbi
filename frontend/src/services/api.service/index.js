@@ -5,7 +5,7 @@ import * as UsuariosService from './usuarios.service';
 import * as DashboardsService from './dashboards.service';
 import * as PermissoesService from './permissoes.service';
 
-const URL = 'http://192.168.15.76:4000';
+const URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
 
 const API = axios.create({
   baseURL: URL,

@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prestart": "npx sequelize db:create && npx sequelize db:migrate",
-    "create": "npm run prestart && npx sequelize db:seed:all && npm run start",
-    "start": "nodemon index.js",
+    "precreate": "npx sequelize db:migrate",
+    "create": "npx sequelize db:seed:all",
+    "start": "node index.js",
     "dev": "nodemon index.js",
     "lint": "eslint . --fix --ext .js,.jsx,.ts,.tsx"
   },
@@ -22,7 +22,9 @@
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.9.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pg": "^8.10.0",
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "chai": "^4.3.6",
@@ -39,8 +41,5 @@
     "sequelize": "^6.17.0",
     "sequelize-cli": "^6.4.1",
     "sinon": "^13.0.1"
-  },
-  "engines": {
-    "node": ">=16.0.0"
   }
 }
