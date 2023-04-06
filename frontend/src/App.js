@@ -68,7 +68,7 @@ export default function App() {
         <Route path="/dashboard" element={ <Layout><Dashboard /></Layout> } />
         <Route path="/profile" element={ <Layout><Profile /></Layout> } />
         <Route path="/company-offline" element={ <CompanyOffline/> } />
-        <Route path="/" element={ <Login /> } />
+        <Route path="*" element={ <Login /> } />
       </Routes>
     </ThemeContext.Provider>
   );
