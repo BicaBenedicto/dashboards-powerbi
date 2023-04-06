@@ -22,7 +22,7 @@ export default function Layout({ children }) {
     const intervalId = setInterval(() => {
       (async () => {
         const [userApi] = await Usuarios.get(`id=${user?.id}`);
-        if (userApi?.empresa?.status === '0') {
+        if (userApi?.empresa?.status === '0' || userApi?.empresa?.status === 'false') {
           localStorage.removeItem('@LOGIN');
           setUser({});
           navigate('/company-offline');
@@ -44,7 +44,7 @@ export default function Layout({ children }) {
     (async () => {
       const [userApi] = await Usuarios.get(`id=${user?.id}`);
 
-      if (userApi?.empresa?.status === '0') {
+      if (userApi?.empresa?.status === '0' || userApi?.empresa?.status === 'false') {
         localStorage.removeItem('@LOGIN');
         setUser({});
         navigate('/company-offline');

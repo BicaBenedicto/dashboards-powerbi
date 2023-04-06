@@ -28,7 +28,7 @@ export default function SignIn({ toggleInSignInPage }) {
         setTooltipDetails({ icon: 'error', text: 'Usuário(a) não encontrado'});
         return;
       };
-      if(user?.empresa?.status === "0") {
+      if(user?.empresa?.status === '0' || user?.empresa?.status === 'false') {
         localStorage.removeItem('@LOGIN');
         setUser({});
         return navigate('/company-offline');
@@ -36,6 +36,10 @@ export default function SignIn({ toggleInSignInPage }) {
       setUser(user);
       localStorage.setItem('@LOGIN', JSON.stringify(user));
       setTooltipDetails({ icon: 'sucess', text: 'Logado com sucesso'});
+
+      if (user?.empresa?.status === '1' || user?.empresa?.status === 'true') {
+        navigate('/dashboard');
+      }
     } catch (e) {
       setTooltipDetails({ icon: 'error', text: 'Email e/ou senha incorretos, por favor tente novamente'});
     }
@@ -49,19 +53,21 @@ export default function SignIn({ toggleInSignInPage }) {
       setUser(userParse);
     }
 
-    (async () => {
-      const [userApi] = await Usuarios.get(`id=${user?.id}`);
+    if (user?.id) {
+      (async () => {
+        const [userApi] = await Usuarios.get(`id=${user?.id}`);
 
-      if (userApi?.empresa?.status === '0') {
-        localStorage.removeItem('@LOGIN');
-        setUser({});
-        navigate('/company-offline');
-      }
-      if (userApi?.empresa?.status === '1') {
-        navigate('/dashboard');
-      }
-    })();
-  }, [user, navigate]);
+        if (userApi?.empresa?.status === '0') {
+          localStorage.removeItem('@LOGIN');
+          setUser({});
+          navigate('/company-offline');
+        }
+        if (userApi?.empresa?.status === '1') {
+          navigate('/dashboard');
+        }
+      })();
+    }
+  }, []);
 
   return (
     <Form onSubmit={onSubmitForm}>
