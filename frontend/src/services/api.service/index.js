@@ -5,7 +5,7 @@ import * as UsuariosService from './usuarios.service';
 import * as DashboardsService from './dashboards.service';
 import * as PermissoesService from './permissoes.service';
 
-const URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+const URL = process.env.REACT_APP_API_URL || 'https://teste-dashboard.onrender.com';
 
 const API = axios.create({
   baseURL: URL,
