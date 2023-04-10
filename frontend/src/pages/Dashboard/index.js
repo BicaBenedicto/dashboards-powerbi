@@ -22,7 +22,7 @@ export default function Dashboard() {
 
       const perm = await Dashboards.get(`empresaId=${user?.permissaoInfo?.empresaId}`);
 
-      const filteredDashboards = perm.filter((dash) => dash?.permissoes.some(({ permissaoId }) => user?.permissaoInfo?.id === permissaoId || user?.permissaoId?.level === 1000));
+      const filteredDashboards = perm.filter((dash) => dash?.permissoes.some(({ permissaoId }) => user?.permissaoInfo?.id === permissaoId) || user?.permissao === 1000);
 
       setdashboardsFiltered(filteredDashboards);
       setDashboard(filteredDashboards[0]?.id);
@@ -33,7 +33,7 @@ export default function Dashboard() {
     (async () => {
       const perm = await Dashboards.get(`empresaId=${company}`);
 
-      const filteredDashboards = perm.filter((dash) => dash?.permissoes.some(({ permissaoId }) => user?.permissaoInfo?.id === permissaoId || user?.permissaoId?.level === 1000));
+      const filteredDashboards = perm.filter((dash) => dash?.permissoes.some(({ permissaoId }) => user?.permissaoInfo?.id === permissaoId) || user?.permissao === 1000);
 
       setdashboardsFiltered(filteredDashboards);
       setDashboard(filteredDashboards[0]?.id);

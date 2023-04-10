@@ -101,7 +101,7 @@ export default function EditPermissions() {
       });
       setTooltipDetails({ icon: 'sucess', text: 'Permissão atualizada com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao atualizar permissão'});
+      setTooltipDetails({ icon: 'error', text: e });
     }
   };
 

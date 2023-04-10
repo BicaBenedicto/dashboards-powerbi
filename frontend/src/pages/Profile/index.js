@@ -60,7 +60,7 @@ export default function Profile() {
       }
       setTooltipDetails({ icon: 'sucess', text: 'Perfil atualizado com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao atualizar perfil'});
+      setTooltipDetails({ icon: 'error', text: e});
     }
   };
 

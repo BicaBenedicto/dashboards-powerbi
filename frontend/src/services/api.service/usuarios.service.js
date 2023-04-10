@@ -6,7 +6,7 @@ export const get = async (query = '') => {
 
     return data;
   } catch (e) {
-    throw e;
+    throw e?.response?.data?.message || 'Erro tente novamente mais tarde';
   }
 };
 
@@ -16,7 +16,7 @@ export const create = async (body) => {
 
     return data;
   } catch (e) {
-    throw e;
+    throw e?.response?.data?.message || 'Erro tente novamente mais tarde';
   }
 };
 
@@ -26,7 +26,7 @@ export const login = async (body) => {
 
     return data;
   } catch (e) {
-    throw e;
+    throw e?.response?.data?.message || 'Erro tente novamente mais tarde';
   }
 };
 
@@ -36,7 +36,7 @@ export const forgetPassword = async (body) => {
 
     return data;
   } catch (e) {
-    throw e;
+    throw e?.response?.data?.message || 'Erro tente novamente mais tarde';
   }
 };
 
@@ -47,7 +47,7 @@ export const update = async (id, body) => {
 
     return data;
   } catch (e) {
-    throw e;
+    throw e?.response?.data?.message || 'Erro tente novamente mais tarde';
   }
 };
 
@@ -57,6 +57,6 @@ export const remove = async (id) => {
 
     return data;
   } catch (e) {
-    throw e;
+    throw e?.response?.data?.message || 'Erro tente novamente mais tarde';
   }
 };

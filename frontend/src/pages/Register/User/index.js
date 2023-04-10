@@ -52,7 +52,7 @@ export default function RegisterUsers() {
       setEmail('');
       setTooltipDetails({ icon: 'sucess', text: 'Usuário(a) cadastrado(a) com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao cadastrar usuário(a)'});
+      setTooltipDetails({ icon: 'error', text: e});
     }
   };
 

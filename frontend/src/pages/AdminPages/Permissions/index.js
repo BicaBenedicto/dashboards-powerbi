@@ -12,7 +12,7 @@ import { Empresas, Permissoes } from '../../../services/api.service';
 import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ permission, callback }) => {
-  const initStatus = !!Number(permission?.status);
+  const initStatus = Boolean(permission?.status);
   const [status, setStatus] = useState(initStatus);
 
   const onSwitchChange = async () => {
@@ -100,7 +100,7 @@ export default function AdminPagesPermissions() {
     ));
       setTooltipDetails({ icon: 'sucess', text: 'Status das permissões salvas com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao salvar status das permissões'});
+      setTooltipDetails({ icon: 'error', text: e});
     }
   };
 

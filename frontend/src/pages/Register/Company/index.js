@@ -90,7 +90,7 @@ export default function RegisterCompany() {
       setResponsaveis([]);
       setTooltipDetails({ icon: 'sucess', text: 'Empresa cadastrada com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao cadastrar empresa'});
+      setTooltipDetails({ icon: 'error', text: e});
     }
   };
 

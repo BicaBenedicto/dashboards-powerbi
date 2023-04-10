@@ -14,16 +14,16 @@ const TYPES = {
 };
 
 const handdleGenericErrors = (error, _request, response, _next) => {
-  console.log(error, 'ERRO');
-
   if (TYPES[error]) {
     const { code, message } = TYPES[error];
     return response.status(code).json({ message });
   }
   if (error.details) {
+
     const [details] = error.details;
     return response.status(400).json({ message: details.message });
   }
+
   return response.status(500).json({ message: 'Internal error' });
 };
 

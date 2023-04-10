@@ -12,7 +12,7 @@ import { Empresas, Usuarios } from '../../../services/api.service';
 import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ user, callback }) => {
-  const initStatus = !!Number(user?.status);
+  const initStatus = Boolean(user?.status);
   const [status, setStatus] = useState(initStatus);
 
   const onSwitchChange = async () => {
@@ -73,8 +73,8 @@ export default function AdminPagesUsers() {
           Empresa: userItem?.empresa?.razaoSocial,
           'Data de criação': new Date(userItem.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           'Ultima atualização': new Date(userItem.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
-          Status: (Number(user.permissao) > userItem?.permissao?.id && Number(userItem?.permissao) !== 1000 )? <StatusSwitch key={userItem.id} user={userItem} callback={usersToSendDefine} /> : <></>,
-          Editar: Number(user.permissao) > userItem?.permissao?.id ? <ButtonEdit key={userItem.id} id={userItem.id} /> : <></>
+          Status: (Number(user.permissao) > userItem?.permissao?.level && userItem.permissao !== 1000 )? <StatusSwitch key={userItem.id} user={userItem} callback={usersToSendDefine} /> : <></>,
+          Editar: Number(user.permissao) > userItem?.permissao?.level ? <ButtonEdit key={userItem.id} id={userItem.id} /> : <></>
         }) : ({
           id: userItem.id,
           Nome: userItem.nome,
@@ -82,8 +82,8 @@ export default function AdminPagesUsers() {
           Permissão: userItem?.permissao?.nome,
           'Data de criação': new Date(userItem.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           'Ultima atualização': new Date(userItem.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
-          Status: (Number(user.permissao) > userItem?.permissao?.id && Number(userItem?.permissao) !== 1000 )? <StatusSwitch key={userItem.id} user={userItem} callback={usersToSendDefine} /> : <></>,
-          Editar: Number(user.permissao) > userItem?.permissao?.id ? <ButtonEdit key={userItem.id} id={userItem.id} /> : <></>
+          Status: (Number(user.permissao) > userItem?.permissao?.level && userItem.permissao !== 1000 )? <StatusSwitch key={userItem.id} user={userItem} callback={usersToSendDefine} /> : <></>,
+          Editar: Number(user.permissao) > userItem?.permissao?.level ? <ButtonEdit key={userItem.id} id={userItem.id} /> : <></>
         });
       });
 
@@ -112,7 +112,7 @@ export default function AdminPagesUsers() {
     ));
       setTooltipDetails({ icon: 'sucess', text: 'Status dos usuários salvos com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao salvar status dos usuários'});
+      setTooltipDetails({ icon: 'error', text: e});
     }
   };
 

@@ -6,7 +6,7 @@ export const get = async (query = '') => {
 
     return data;
   } catch (e) {
-    throw e;
+    throw e?.response?.data?.message || 'Erro tente novamente mais tarde';
   }
 };
 
@@ -16,17 +16,17 @@ export const create = async (body) => {
 
     return data;
   } catch (e) {
-    throw e;
+    throw e?.response?.data?.message || 'Erro tente novamente mais tarde';
   }
 };
 
 export const update = async (id, body) => {
   try {
     const { data } = await API.put(`/empresas/${id}`, body);
-    console.log(data, 'data')
+
     return data;
   } catch (e) {
-    throw e;
+    throw e?.response?.data?.message || 'Erro tente novamente mais tarde';
   }
 };
 
@@ -36,6 +36,6 @@ export const remove = async (id) => {
 
     return data;
   } catch (e) {
-    throw e;
+    throw e?.response?.data?.message || 'Erro tente novamente mais tarde';
   }
 };

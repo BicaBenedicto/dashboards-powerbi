@@ -48,7 +48,7 @@ export default function EditDashboard() {
       });
       setTooltipDetails({ icon: 'sucess', text: 'Dashboard atualizado com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao atualizar dashboard'});
+      setTooltipDetails({ icon: 'error', text: e });
     }
   };
 

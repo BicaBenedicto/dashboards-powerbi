@@ -96,7 +96,7 @@ export default function EditCompany() {
       });
       setTooltipDetails({ icon: 'sucess', text: 'Empresa atualizada com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao atualizar empresa'});
+      setTooltipDetails({ icon: 'error', text: e});
     }
   };
 

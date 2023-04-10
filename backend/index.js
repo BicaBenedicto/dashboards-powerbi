@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const serverless = require('serverless-http');
 
 const ErrorMiddleware = require('./errors');
 const Routes = require('./routes');
@@ -27,7 +26,4 @@ app.use(function(_req, res, next) {
 app.use(Routes);
 app.use(ErrorMiddleware);
 
-// app.listen(PORT, () => console.log(`Servidor online na porta ${PORT}`));
-
-module.exports = app;
-module.exports.handler = serverless(app);
+app.listen(PORT, () => console.log(`Servidor online na porta ${PORT}`));

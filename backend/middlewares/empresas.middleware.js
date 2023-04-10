@@ -2,31 +2,46 @@ const { empresas: Empresas } = require('../models');
 const { Empresas: EmpresasValidation } = require('../validations');
 const { remove: removeValidation, create: createValidation, update: updateValidation } = EmpresasValidation;
 
-const get = async (_require, _response, next) => next();
+const get = async (_require, _response, next) => {
+  try {
+    return next();
+  } catch (e) {
+    return next(e);
+  }
+};
 
 const remove = async (require, _response, next) => {
-  const { id } = require.params;
+  try {
+    const { id } = require.params;
 
-  const validate = await removeValidation.validateAsync({ id });
-  if(validate.error) return next(validate.error);
+    const validate = await removeValidation.validateAsync({ id });
+    if(validate.error) return next(validate.error);
 
-  const empresaExists = await Empresas.findByPk(id);
-  if(!empresaExists) return next('notFound');
+    const empresaExists = await Empresas.findByPk(id);
+    if(!empresaExists) return next('notFound');
 
-  return next();
+    return next();
+  } catch (e) {
+    return next(e);
+  }
 };
 
 const create = async (require, _response, next) => {
-  const { body } = require;
+  try {
+    const { body } = require;
 
-  const validate = await createValidation.validateAsync(body);
-  if(validate.error) return next(validate.error);
+    const validate = await createValidation.validateAsync(body);
+    if(validate.error) return next(validate.error);
 
-  return next();
+    return next();
+  } catch (e) {
+    return next(e);
+  }
 };
 
 const update = async (require, _response, next) => {
-  const { body } = require;
+  try {
+    const { body } = require;
   const { id } = require.params;
 
   const validate = await updateValidation.validateAsync({...body, id});
@@ -36,6 +51,9 @@ const update = async (require, _response, next) => {
   if(!empresaExists.dataValues) return next('notFound');
 
   return next();
+  } catch (e) {
+    return next(e);
+  }
 };
 
 module.exports = {

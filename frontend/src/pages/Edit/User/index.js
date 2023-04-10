@@ -54,7 +54,7 @@ export default function EditUsers() {
       });
       setTooltipDetails({ icon: 'sucess', text: 'Usuário(a) atualizado(a) com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao atualizar usuário(a)'});
+      setTooltipDetails({ icon: 'error', text: e});
     }
   };
 

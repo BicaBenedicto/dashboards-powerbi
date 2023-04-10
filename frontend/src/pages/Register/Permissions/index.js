@@ -89,7 +89,7 @@ export default function RegisterPermissions() {
       setName('');
       setTooltipDetails({ icon: 'sucess', text: 'Permissão cadastrada com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao cadastrar permissão'});
+      setTooltipDetails({ icon: 'error', text: e});
     }
   };
 

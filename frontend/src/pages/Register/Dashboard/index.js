@@ -44,7 +44,7 @@ export default function RegisterDashboard() {
       setDesc('');
       setTooltipDetails({ icon: 'sucess', text: 'Dashboard cadastrado com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao cadastrar dashboard'});
+      setTooltipDetails({ icon: 'error', text: e});
     }
   };
 

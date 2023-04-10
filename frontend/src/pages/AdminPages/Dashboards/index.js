@@ -12,7 +12,7 @@ import { Empresas, Dashboards } from '../../../services/api.service';
 import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ dashboard, callback }) => {
-  const initStatus = !!Number(dashboard?.status);
+  const initStatus = Boolean(dashboard?.status);
   const [status, setStatus] = useState(initStatus);
 
   const onSwitchChange = async () => {
@@ -105,7 +105,7 @@ export default function AdminPagesDashboards() {
     ));
       setTooltipDetails({ icon: 'sucess', text: 'Status dos dashboards salvos com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao salvar status dos dashboards'});
+      setTooltipDetails({ icon: 'error', text: e});
     }
   };
 

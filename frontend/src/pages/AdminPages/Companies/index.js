@@ -13,7 +13,7 @@ import { maskCnpj } from '../../../utils/maskConvert';
 import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ company, callback }) => {
-  const initStatus = !!Number(company?.status);
+  const initStatus = Boolean(company?.status);
   const [status, setStatus] = useState(initStatus);
 
   const onSwitchChange = async () => {
@@ -63,7 +63,7 @@ export default function AdminPagesCompanies() {
           'Data de criação': new Date(company.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           'Ultima atualização': new Date(company.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           Status: <StatusSwitch key={company.id} company={company} callback={companiesToSendDefine} />,
-          Editar: <ButtonEdit key={company.id} id={company.id}/>
+          Editar: company.id !== 1 ? <ButtonEdit key={company.id} id={company.id}/> : ''
         })
       });
 
@@ -92,7 +92,7 @@ export default function AdminPagesCompanies() {
       ));
       setTooltipDetails({ icon: 'sucess', text: 'Status das empresas salvos com sucesso'});
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Erro ao salvar status das empresas'});
+      setTooltipDetails({ icon: 'error', text: e});
     }
   };
 
