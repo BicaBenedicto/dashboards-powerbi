@@ -62,7 +62,7 @@ export default function AdminPagesCompanies() {
           CNPJ: maskCnpj(company.cnpj),
           'Data de criação': new Date(company.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           'Ultima atualização': new Date(company.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
-          Status: <StatusSwitch key={company.id} company={company} callback={companiesToSendDefine} />,
+          Status: company.id !== 1 ? <StatusSwitch key={company.id} company={company} callback={companiesToSendDefine} /> : '',
           Editar: company.id !== 1 ? <ButtonEdit key={company.id} id={company.id}/> : ''
         })
       });
