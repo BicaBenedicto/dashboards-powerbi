@@ -30,15 +30,24 @@ export default function RegisterUsers() {
       const empresas = await Empresas.get();
       const empresasFiltered = empresas.filter((empresa) => (user?.permissao === 1000 || empresa.id === user?.permissaoInfo?.empresaId));
 
+      const empresa = empresasFiltered.find((empresa) => empresa.id !== 1 && empresa.id !== 0);
+
       setCompanies(empresasFiltered);
-      setCompany(empresasFiltered[0].id);
-      setPermission(empresasFiltered[0]?.permissoes[0]?.id);
+      setCompany(empresa.id);
+      setPermission(empresa?.permissoes[0]?.id);
     })();
   }, []);
 
   const onSubmitDashboard = async (e) => {
     e.preventDefault();
     try {
+
+      if (Number(permission) === 1 && Number(company) !== 1) {
+        const empresa = companies.find((emp) => emp.id === Number(company));
+        setTooltipDetails({ icon: 'error', text: "Ops, a permissão que está tentou cadastrar para uma empresa diferente, por favor recarregue a página e tenta novamente."});
+        setPermission(empresa?.permissoes[0]?.id);
+        return;
+      }
       await Usuarios.create({
         nome: name,
         email,
@@ -137,7 +146,7 @@ export default function RegisterUsers() {
             className="cancel"
             onClick={() => navigate(pathnameBack)}
           >
-            Cancelar
+            Voltar
           </button>
         </div>
       </form>

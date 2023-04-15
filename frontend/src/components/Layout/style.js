@@ -42,6 +42,18 @@ h1 {
   }
 }
 
+  button.logout {
+    display: block;
+    background-color: ${({theme}) => theme.primaryBackground};
+    border: none;
+    border-radius: 10px;
+    color: ${({theme}) => theme.primaryText};
+    font-size: 0.7em;
+    padding: 10px 15px;
+    margin: 0 2.5%;
+    margin-bottom: 10px;
+  }
+
 header.header-layout {
   align-items: center;
   background-color: white;

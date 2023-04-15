@@ -112,7 +112,7 @@ export default function RegisterDashboard() {
             className="cancel"
             onClick={() => navigate(pathnameBack)}
           >
-            Cancelar
+            Voltar
           </button>
         </div>
       </form>

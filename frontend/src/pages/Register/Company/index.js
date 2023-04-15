@@ -216,7 +216,7 @@ export default function RegisterCompany() {
             className="cancel"
             onClick={() => navigate(pathnameBack)}
           >
-            Cancelar
+            Voltar
           </button>
         </div>
       </form>

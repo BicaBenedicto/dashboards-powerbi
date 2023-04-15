@@ -157,7 +157,7 @@ export default function RegisterPermissions() {
             className="cancel"
             onClick={() => navigate(pathnameBack)}
           >
-            Cancelar
+            Voltar
           </button>
         </div>
       </form>

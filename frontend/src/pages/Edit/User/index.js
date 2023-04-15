@@ -9,6 +9,7 @@ import { Container } from './style';
 
 import { Empresas, Usuarios } from '../../../services/api.service';
 import { ThemeContext } from "../../../App";
+import { Delete } from "@mui/icons-material";
 
 export default function EditUsers() {
   const { user, setTooltipDetails } = useContext(ThemeContext);
@@ -27,23 +28,31 @@ export default function EditUsers() {
   const [createdAt, setCreatedAt] = useState('');
 
   useEffect(() => {
-    (async () => {
-      const empresas = await Empresas.get();
-      const [user] = await Usuarios.get(`id=${params.id}`);
+    if (user.id) {
+      (async () => {
+        const empresas = await Empresas.get();
+        const [user] = await Usuarios.get(`id=${params.id}`);
 
-      setCompanies(empresas);
-      setCompany(user.permissao.empresaId);
-      setPermission(user.permissao.id);
-      setName(user.nome);
-      setEmail(user.email);
-      toggleUsersStatus(!!Number(user.status));
-      setCreatedAt(user.createdAt);
-    })();
+        setCompanies(empresas);
+        setCompany(user.permissao.empresaId);
+        setPermission(user.permissao.id);
+        setName(user.nome);
+        setEmail(user.email);
+        toggleUsersStatus(!!Number(user.status));
+        setCreatedAt(user.createdAt);
+      })();
+    }
   }, [user, params]);
 
   const onSubmitDashboard = async (e) => {
     e.preventDefault();
     try {
+      if (Number(permission) === 1 && Number(company) !== 1) {
+        const empresa = companies.find((emp) => emp.id === Number(company));
+        setTooltipDetails({ icon: 'error', text: "Ops, a permissão que está tentou cadastrar para uma empresa diferente, por favor recarregue a página e tenta novamente."});
+        setPermission(empresa?.permissoes[0]?.id);
+        return;
+      }
       await Usuarios.update(params.id, {
         nome: name,
         email,
@@ -60,14 +69,16 @@ export default function EditUsers() {
 
   return (
     <Container>
-      <h1>Edição de Usuário</h1>
       <div className="status">
-        <span className="type">Status do usuário</span>
-        <Switch
-          size="medium"
-          checked={usersStatus}
-          onClick={() => toggleUsersStatus(!usersStatus)}
-        />
+        <h1>Edição de Usuário</h1>
+        <button
+          type="button"
+          style={{ alignItems: 'center', display: 'flex', backgroundColor: 'transparent', border: 'none', color: 'red' }}
+          onClick={async () => {
+            await Usuarios.remove(params.id);
+            return navigate(pathnameBack);
+          }}
+        ><Delete /> Apagar empresa</button>
       </div>
       <br />
       {/* <div className="status">
@@ -139,7 +150,7 @@ export default function EditUsers() {
             className="cancel"
             onClick={() => navigate(pathnameBack)}
           >
-            Cancelar
+            Voltar
           </button>
         </div>
       </form>

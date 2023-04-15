@@ -64,19 +64,11 @@ export default function Profile() {
     }
   };
 
-  const onLogoutButton = () => {
-    localStorage.removeItem('@LOGIN')
-    setUser({});
-    return navigate('/');
-  };
-
   return (
     <Container>
-      <h1>Perfil</h1>
       <div className="status">
-        <button onClick={onLogoutButton} className="logout">
-          Deslogar
-        </button>
+        <h1>Perfil</h1>
+
       </div>
       {/* <div className="status">
         <span className="type">Status do usuário</span>

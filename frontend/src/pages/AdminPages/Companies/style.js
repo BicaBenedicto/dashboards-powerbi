@@ -7,14 +7,14 @@ padding: 20px 0;
 
 h1 {
   font-size: 2em;
-  margin-left: 2%;
 }
 
 div.status {
-  align-items: center;
+  align-items: end;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   margin: 0 auto;
+  margin-bottom: 10px;
   width: 95%;
 
   button {
@@ -26,7 +26,6 @@ div.status {
     font-size: 1em;
     padding: 10px 15px;
     margin: 0 2.5%;
-    margin-bottom: 10px;
   }
 }
 

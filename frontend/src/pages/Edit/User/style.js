@@ -7,13 +7,12 @@ padding: 20px 0;
 
 h1 {
   font-size: 2em;
-  margin-left: 2%;
 }
 
 div.status {
   align-items: center;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   margin: 0 auto;
 
   input.password {

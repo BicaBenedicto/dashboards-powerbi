@@ -61,15 +61,17 @@ const update = async (require, response, next) => {
 
 const create = async (require, response, next) => {
   try {
-    const { nome, cnpj, razaoSocial, email, status, responsaveis } = require.body;
+    const { nome, cnpj, razaoSocial, status, responsaveis } = require.body;
     let responsaveisSaida = [];
 
-    const empresa = await Empresas.create({
-      nome,
-      cnpj,
-      razaoSocial,
-      email,
-      status,
+    const empresa = await Empresas.findOrCreate({
+      where: { cnpj, razaoSocial },
+      default: {
+        nome,
+        cnpj,
+        razaoSocial,
+        status,
+      }
     });
 
     const permissoes = await Promise.all(PERMISSIONS_DEFAULT.map(async (resp) => await Permissoes.create({

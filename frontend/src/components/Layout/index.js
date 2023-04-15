@@ -19,19 +19,21 @@ export default function Layout({ children }) {
   const MINUTES_REFRESH_USER = 5;
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    if (user.id) {
+      const intervalId = setInterval(() => {
       (async () => {
         const [userApi] = await Usuarios.get(`id=${user?.id}`);
-        if (userApi?.empresa?.status === '0' || userApi?.empresa?.status === 'false') {
-          localStorage.removeItem('@LOGIN');
-          setUser({});
-          navigate('/company-offline');
-        }
-      })();
-  }, (MINUTES_REFRESH_USER * 60 * 1000));
+          if (userApi?.empresa?.status === '0' || userApi?.empresa?.status === 'false') {
+            localStorage.removeItem('@LOGIN');
+            setUser({});
+            navigate('/company-offline');
+          }
+        })();
+      }, (MINUTES_REFRESH_USER * 60 * 1000));
 
-    return () => clearInterval(intervalId);
-  },[]);
+      return () => clearInterval(intervalId);
+    }
+  },[user]);
 
   useEffect(() => {
     const userSaved = localStorage.getItem('@LOGIN');
@@ -41,26 +43,34 @@ export default function Layout({ children }) {
       setUser(userParse);
     }
 
-    (async () => {
-      const [userApi] = await Usuarios.get(`id=${user?.id}`);
+    if (user.id) {
+      (async () => {
+        const [userApi] = await Usuarios.get(`id=${user?.id}`);
 
-      if (userApi?.empresa?.status === '0' || userApi?.empresa?.status === 'false') {
-        localStorage.removeItem('@LOGIN');
-        setUser({});
-        navigate('/company-offline');
-      }
-    })();
+        if (userApi?.empresa?.status === '0' || userApi?.empresa?.status === 'false') {
+          localStorage.removeItem('@LOGIN');
+          setUser({});
+          navigate('/company-offline');
+        }
+      })();
+    }
   }, [setUser]);
 
-  useEffect(() => {
-    if (MENU.some((item) => (location.pathname.includes(item.path) || location.pathname === item.path) && (
-      item.permission > Number(user.permissao)
-      || !user.nome
-      ))) {
-      if (!user.nome) navigate('/');
-      else navigate('/dashboard');
-    }
-  }, [location, user, navigate]);
+  const onLogoutButton = () => {
+    localStorage.removeItem('@LOGIN')
+    setUser({});
+    return navigate('/');
+  };
+
+  // useEffect(() => {
+  //   if (MENU.some((item) => (location.pathname.includes(item.path) || location.pathname === item.path) && (
+  //     item.permission > Number(user.permissao)
+  //     || !user.nome
+  //     ))) {
+  //     if (!user.nome) navigate('/');
+  //     else navigate('/dashboard');
+  //   }
+  // }, [location, user, navigate]);
 
   return (
     <Container>
@@ -71,6 +81,9 @@ export default function Layout({ children }) {
           <h4>{user?.nome}</h4>
           <span>{user?.permissaoInfo?.nome}</span>
         </div>
+        <button type="button" onClick={onLogoutButton} className="logout">
+          Sair
+        </button>
       </header>
       {tooltipDetails && <Tooltip className='tooltip-layout' title="Yo" children={<div>{tooltipDetails.icon}<span>{tooltipDetails.text}</span><button onClick={() => setTooltipDetails('')}>X</button></div>}/>}
       <section className='section-layout'>

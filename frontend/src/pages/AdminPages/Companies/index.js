@@ -17,11 +17,18 @@ const StatusSwitch = ({ company, callback }) => {
   const [status, setStatus] = useState(initStatus);
 
   const onSwitchChange = async () => {
-    await callback(company, !status);
-    return setStatus(!status)
+    try {
+      await Empresas.update(company.id, {
+        status: !status,
+      });
+      callback({ icon: 'sucess', text: `Status da empresa ${company.nome} alterado com sucesso para ${!status === true ? 'ativado' : 'desativado'}`});
+      return setStatus(!status)
+    } catch (e) {
+      callback({ icon: 'error', text: e});
+    }
   };
 
-  return <Switch value={status} checked={status} onClick={onSwitchChange} />;
+  return <><button type="button" onClick={() => {}}/><Switch value={status} checked={status} onChange={onSwitchChange} /></>;
 };
 
 const ButtonEdit = ({ id }) => {
@@ -41,7 +48,6 @@ export default function AdminPagesCompanies() {
   const location = useLocation();
   const pathnameBack = location.pathname.split('/').filter((_v, index, array) => index !== (array.length - 1)).join('/');
   const [companies, setCompanies] = useState([]);
-  const [companiesToSend, setCompaniesToSend] = useState([]);
   const [headerTable, setHeaderTable] = useState([]);
 
   useEffect(() => {
@@ -62,7 +68,7 @@ export default function AdminPagesCompanies() {
           CNPJ: maskCnpj(company.cnpj),
           'Data de criação': new Date(company.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           'Ultima atualização': new Date(company.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
-          Status: company.id !== 1 ? <StatusSwitch key={company.id} company={company} callback={companiesToSendDefine} /> : '',
+          Status: company.id !== 1 ? <StatusSwitch key={company.id} company={company} callback={setTooltipDetails} /> : '',
           Editar: company.id !== 1 ? <ButtonEdit key={company.id} id={company.id}/> : ''
         })
       });
@@ -79,27 +85,10 @@ export default function AdminPagesCompanies() {
     })();
   }, []);
 
-  const companiesToSendDefine = async (companies, status) => {
-    return setCompaniesToSend((companiesToSend) => ([...companiesToSend, {...companies, status}]));
-  };
-
-  const onSubmitCompanies = async (e) => {
-    e.preventDefault();
-    try {
-      await Promise.all(companiesToSend.map((company) => Empresas.update(company.id, {
-          status: company.status,
-        })
-      ));
-      setTooltipDetails({ icon: 'sucess', text: 'Status das empresas salvos com sucesso'});
-    } catch (e) {
-      setTooltipDetails({ icon: 'error', text: e});
-    }
-  };
-
   return (
     <Container>
-      <h1>Empresas</h1>
       <div className="status">
+      <h1>Empresas</h1>
         <button
           type="button"
           className="submit"
@@ -108,7 +97,7 @@ export default function AdminPagesCompanies() {
           Cadastrar nova empresa
         </button>
       </div>
-      <form onSubmit={onSubmitCompanies}>
+      <form>
         <div className="formatted">
           <label style={{ width: '95%', margin: '0 auto' }}>
             <Table
@@ -120,17 +109,11 @@ export default function AdminPagesCompanies() {
         </div>
         <div className="buttons">
           <button
-            type="submit"
-            className="submit"
-          >
-            Salvar
-          </button>
-          <button
             type="button"
             className="cancel"
             onClick={() => navigate(pathnameBack)}
           >
-            Cancelar
+            Voltar
           </button>
         </div>
       </form>

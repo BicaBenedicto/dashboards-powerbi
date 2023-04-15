@@ -11,15 +11,26 @@ width: 100%;
 
 h1 {
   font-size: 2em;
-  margin-left: 2%;
 }
 
 div.status {
   align-items: center;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   margin: 0 auto;
   width: 95%;
+
+  div.dashboards-select {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    max-width: 50%;
+    
+    select {
+      margin: 0 10px;
+      width: 90%;
+    }
+  }
 
   span {
     &.type {
@@ -35,12 +46,6 @@ div.status {
     padding: 1%;
     font-size: 1em;
     position: relative;
-    margin-bottom: 10px;
-    width: 20%;
-  }
-
-  select {
-    width: 20%;
   }
 
   textarea {

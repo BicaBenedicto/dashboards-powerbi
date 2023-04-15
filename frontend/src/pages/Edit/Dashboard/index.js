@@ -1,6 +1,11 @@
 import { Switch } from "@mui/material";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import {
+  AddBox,
+  DisabledByDefault,
+  Delete
+} from '@mui/icons-material';
 
 import { Container } from './style';
 
@@ -54,14 +59,16 @@ export default function EditDashboard() {
 
   return (
     <Container>
-      <h1>Edição de Dashboard</h1>
       <div className="status">
-        <span className="type">Status do dashboard</span>
-        <Switch
-          size="medium"
-          checked={dashboardStatus}
-          onClick={() => toggleDashboardStatus(!dashboardStatus)}
-        />
+        <h1>Edição de Dashboard</h1>
+        <button
+          type="button"
+          style={{ alignItems: 'center', display: 'flex', backgroundColor: 'transparent', border: 'none', color: 'red' }}
+          onClick={async () => {
+            await Dashboards.remove(params.id);
+            return navigate(pathnameBack);
+          }}
+        ><Delete /> Apagar empresa</button>
       </div>
       <form onSubmit={onSubmitDashboard}>
         <div>
@@ -116,7 +123,7 @@ export default function EditDashboard() {
             className="cancel"
             onClick={() => navigate(pathnameBack)}
           >
-            Cancelar
+            Voltar
           </button>
         </div>
       </form>

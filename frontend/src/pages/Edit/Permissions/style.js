@@ -13,7 +13,7 @@ h1 {
 div.status {
   align-items: center;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   margin: 0 auto;
   width: 95%;
 

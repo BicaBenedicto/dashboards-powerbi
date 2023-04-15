@@ -92,7 +92,7 @@ const create = async (require, response, next) => {
 
     const password = await bcrypt.hash(senha, 10);
 
-    const usuario = await Usuarios.create({ email, nome, senha: password, empresaId, permissao, status });
+    const usuario = await Usuarios.findOrCreate({ where: { email }, default: { email, nome, senha: password, empresaId, permissao, status }});
 
     const permissaoGet = await Permissoes.findByPk(usuario.dataValues.permissao);
 

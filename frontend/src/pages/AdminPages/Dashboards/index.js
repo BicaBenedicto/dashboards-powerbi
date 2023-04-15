@@ -14,13 +14,20 @@ import { ThemeContext } from "../../../App";
 const StatusSwitch = ({ dashboard, callback }) => {
   const initStatus = Boolean(dashboard?.status);
   const [status, setStatus] = useState(initStatus);
-
+  
   const onSwitchChange = async () => {
-    await callback(dashboard, !status);
-    return setStatus(!status)
-  };
+      try {
+        await Dashboards.update(dashboard.id, {
+          status: !status,
+        });
+        callback({ icon: 'sucess', text: 'Status dos dashboards salvos com sucesso'});
+        return setStatus(!status)
+      } catch (e) {
+        callback({ icon: 'error', text: e});
+      }
+    };
 
-  return <Switch value={status} checked={status} onClick={onSwitchChange} />;
+  return <><button type="button" onClick={() => {}}/><Switch value={status} checked={status} onClick={onSwitchChange} /></>;
 };
 
 const ButtonEdit = ({ id }) => {
@@ -42,7 +49,6 @@ export default function AdminPagesDashboards() {
   const [company, setCompany] = useState('');
   const [companies, setCompanies] = useState([]);
   const [dashboards, setDashboards] = useState([]);
-  const [dashboardsToSend, setDashboardsToSend] = useState([]);
   const [headerTable, setHeaderTable] = useState([]);
 
   useEffect(() => {
@@ -72,7 +78,7 @@ export default function AdminPagesDashboards() {
           URL: dash.url,
           'Descrição': dash.descricao,
           Empresa: companies.find((comp) => comp.id === dash?.empresaId)?.razaoSocial,
-          Status: <StatusSwitch dashboard={dash} callback={dashboardsToSendDefine} />,
+          Status: <StatusSwitch dashboard={dash} callback={setTooltipDetails} />,
           Editar: <ButtonEdit id={dash.id} />
         })
       });
@@ -89,30 +95,10 @@ export default function AdminPagesDashboards() {
     })();
   }, [company]);
 
-  const dashboardsToSendDefine = async (dashboard, status) => {
-    if (status) {
-      return setDashboardsToSend((dashboardsToSend) => ([...dashboardsToSend, {...dashboard, status}]));
-    }
-    return setDashboardsToSend((dashboardsToSend) => dashboardsToSend.filter((dash) => dash?.id !== dashboard?.id));
-  };
-
-  const onSubmitDashboard = async (e) => {
-    e.preventDefault();
-    try {
-      await Promise.all(dashboardsToSend.map((dash) => Dashboards.update(dash.id, {
-        status: dash.status,
-      })
-    ));
-      setTooltipDetails({ icon: 'sucess', text: 'Status dos dashboards salvos com sucesso'});
-    } catch (e) {
-      setTooltipDetails({ icon: 'error', text: e});
-    }
-  };
-
   return (
     <Container>
-      <h1>Dashboards</h1>
       <div className="status">
+        <h1>Dashboards</h1>
         <div>
           <label className="formatted">
             <select
@@ -131,7 +117,7 @@ export default function AdminPagesDashboards() {
           </button>
         </div>
       </div>
-      <form onSubmit={onSubmitDashboard}>
+      <form>
         <div className="formatted">
           <label style={{ width: '95%', margin: '0 auto' }}>
             <Table
@@ -143,17 +129,11 @@ export default function AdminPagesDashboards() {
         </div>
         <div className="buttons">
           <button
-            type="submit"
-            className="submit"
-          >
-            Salvar
-          </button>
-          <button
             type="button"
             className="cancel"
             onClick={() => navigate(pathnameBack)}
           >
-            Cancelar
+            Voltar
           </button>
         </div>
       </form>

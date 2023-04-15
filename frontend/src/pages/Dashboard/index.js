@@ -41,26 +41,28 @@ export default function Dashboard() {
   }, [company]);
   return (
     <Container>
-      <h1>Dashboard</h1>
-      {user?.permissaoInfo?.level === 1000 && <div className="status">
-        <span className="type">Empresas: </span>
-        <select
-          placeholder="Empresas"
-          value={company}
-          onChange={(e) => setCompany(e.target.value)}
-        >
-          {companies?.length > 0 && companies.map((comp) => <option key={comp.id} value={comp.id}>{comp.razaoSocial}</option>)}
-        </select>
-      </div>}
       <div className="status">
-        <span className="type">Dashboards: </span>
-        <select
-          placeholder="Dashboards"
-          value={dashboard}
-          onChange={(e) => setDashboard(e.target.value)}
-        >
-          {dashboardsFiltered?.length > 0 && dashboardsFiltered.map((dash) => <option key={dash.id} value={dash.id}>{dash.nome}</option>)}
-        </select>
+        <h1>Dashboard</h1>
+        <div className="dashboards-select">
+          {user?.permissaoInfo?.level === 1000 && <>
+            <span className="type">Empresas: </span>
+            <select
+              placeholder="Empresas"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+            >
+              {companies?.length > 0 && companies.map((comp) => <option key={comp.id} value={comp.id}>{comp.razaoSocial}</option>)}
+            </select>
+          </>}
+          <span className="type">Dashboards: </span>
+          <select
+            placeholder="Dashboards"
+            value={dashboard}
+            onChange={(e) => setDashboard(e.target.value)}
+          >
+            {dashboardsFiltered?.length > 0 && dashboardsFiltered.map((dash) => <option key={dash.id} value={dash.id}>{dash.nome}</option>)}
+          </select>
+        </div>
       </div>
       <div className="dashboard">
         {dashboardsFiltered?.length > 0 && <iframe

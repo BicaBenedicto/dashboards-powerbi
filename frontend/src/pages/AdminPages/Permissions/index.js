@@ -16,11 +16,19 @@ const StatusSwitch = ({ permission, callback }) => {
   const [status, setStatus] = useState(initStatus);
 
   const onSwitchChange = async () => {
-    await callback(permission, !status);
-    return setStatus(!status)
+    try {
+      await Permissoes.update(permission.id, {
+        status: !status,
+      });
+      callback({ icon: 'sucess', text: 'Status das permissões salvas com sucesso'});
+      return setStatus(!status)
+    } catch (e) {
+      callback({ icon: 'error', text: e});
+    }
+
   };
 
-  return <Switch value={status} checked={status} onClick={onSwitchChange} />;
+  return <><button type="button" onClick={() => {}}/><Switch value={status} checked={status} onClick={onSwitchChange} /></>;
 };
 
 const ButtonEdit = ({ id }) => {
@@ -42,7 +50,6 @@ export default function AdminPagesPermissions() {
   const [company, setCompany] = useState('');
   const [companies, setCompanies] = useState([]);
   const [permissions, setPermissions] = useState([]);
-  const [permissionsToSend, setPermissionsToSend] = useState([]);
   const [headerTable, setHeaderTable] = useState([]);
 
   useEffect(() => {
@@ -70,7 +77,7 @@ export default function AdminPagesPermissions() {
           Nome: permission.nome,
           Level: permission.level,
           Empresa: companies.find((comp) => comp.id === Number(permission.empresaId))?.razaoSocial,
-          Status: <StatusSwitch key={permission.id} permission={permission} callback={permissionsToSendDefine} />,
+          Status: <StatusSwitch key={permission.id} permission={permission} callback={setTooltipDetails} />,
           Editar: <ButtonEdit key={permission.id} id={permission.id} />
         })
       });
@@ -87,27 +94,10 @@ export default function AdminPagesPermissions() {
     })();
   }, [company]);
 
-  const permissionsToSendDefine = async (permission, status) => {
-    return setPermissionsToSend((permissionsToSend) => ([...permissionsToSend, {...permission, status}]));
-  };
-
-  const onSubmitPermission = async (e) => {
-    e.preventDefault();
-    try {
-      await Promise.all(permissionsToSend.map((permission) => Permissoes.update(permission.id, {
-        status: permission.status,
-      })
-    ));
-      setTooltipDetails({ icon: 'sucess', text: 'Status das permissões salvas com sucesso'});
-    } catch (e) {
-      setTooltipDetails({ icon: 'error', text: e});
-    }
-  };
-
   return (
     <Container>
-      <h1>Permissões</h1>
       <div className="status">
+        <h1>Permissões</h1>
         <div>
           <label className="formatted">
             <select
@@ -126,7 +116,7 @@ export default function AdminPagesPermissions() {
           </button>
         </div>
       </div>
-      <form onSubmit={onSubmitPermission}>
+      <form>
         <div className="formatted">
           <label style={{ width: '95%', margin: '0 auto' }}>
             <Table
@@ -138,17 +128,11 @@ export default function AdminPagesPermissions() {
         </div>
         <div className="buttons">
           <button
-            type="submit"
-            className="submit"
-          >
-            Salvar
-          </button>
-          <button
             type="button"
             className="cancel"
             onClick={() => navigate(pathnameBack)}
           >
-            Cancelar
+            Voltar
           </button>
         </div>
       </form>

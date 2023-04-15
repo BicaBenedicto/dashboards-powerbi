@@ -4,6 +4,7 @@ import { Switch } from "@mui/material";
 import {
   AddBox,
   DisabledByDefault,
+  Delete
 } from '@mui/icons-material';
 
 import { Container } from './style';
@@ -102,14 +103,16 @@ export default function EditCompany() {
 
   return (
     <Container>
-      <h1>Edição de Empresas</h1>
       <div className="status">
-        <span className="type">Status da empresa</span>
-        <Switch
-          size="medium"
-          checked={companyStatus}
-          onClick={() => toggleCompanyStatus(!companyStatus)}
-        />
+        <h1>Edição de Empresas</h1>
+        <button
+          type="button"
+          style={{ alignItems: 'center', display: 'flex', backgroundColor: 'transparent', border: 'none', color: 'red' }}
+          onClick={async () => {
+            await Empresas.remove(params.id);
+            return navigate(pathnameBack);
+          }}
+        ><Delete /> Apagar empresa</button>
       </div>
       <form onSubmit={onSubmitCompany}>
         <div>
@@ -222,7 +225,7 @@ export default function EditCompany() {
             className="cancel"
             onClick={() => navigate(pathnameBack)}
           >
-            Cancelar
+            Voltar
           </button>
         </div>
       </form>

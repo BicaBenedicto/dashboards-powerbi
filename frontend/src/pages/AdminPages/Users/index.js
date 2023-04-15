@@ -16,11 +16,18 @@ const StatusSwitch = ({ user, callback }) => {
   const [status, setStatus] = useState(initStatus);
 
   const onSwitchChange = async () => {
-    await callback(user, !status);
-    return setStatus(!status)
+    try {
+      await Usuarios.update(user.id, {
+        status: !status,
+      })
+      callback({ icon: 'sucess', text: 'Status dos usuários salvos com sucesso'});
+      return setStatus(!status)
+    } catch (e) {
+      callback({ icon: 'error', text: e});
+    }
   };
 
-  return <Switch value={status} checked={status} onClick={onSwitchChange} />;
+  return <><button type="button" onClick={() => {}}/><Switch value={status} checked={status} onClick={onSwitchChange} /></>;
 };
 
 const ButtonEdit = ({ id }) => {
@@ -42,7 +49,6 @@ export default function AdminPagesUsers() {
   const [company, setCompany] = useState(user?.permissaoInfo?.empresaId);
   const [companies, setCompanies] = useState([]);
   const [users, setUsers] = useState([]);
-  const [usersToSend, setUsersToSend] = useState([]);
   const [headerTable, setHeaderTable] = useState([]);
 
   useEffect(() => {
@@ -73,7 +79,7 @@ export default function AdminPagesUsers() {
           Empresa: userItem?.empresa?.razaoSocial,
           'Data de criação': new Date(userItem.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           'Ultima atualização': new Date(userItem.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
-          Status: (Number(user.permissao) > userItem?.permissao?.level && userItem.permissao !== 1000 )? <StatusSwitch key={userItem.id} user={userItem} callback={usersToSendDefine} /> : <></>,
+          Status: (Number(user.permissao) > userItem?.permissao?.level && userItem.permissao !== 1000 )? <StatusSwitch key={userItem.id} user={userItem} callback={setTooltipDetails} /> : <></>,
           Editar: Number(user.permissao) > userItem?.permissao?.level ? <ButtonEdit key={userItem.id} id={userItem.id} /> : <></>
         }) : ({
           id: userItem.id,
@@ -82,7 +88,7 @@ export default function AdminPagesUsers() {
           Permissão: userItem?.permissao?.nome,
           'Data de criação': new Date(userItem.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           'Ultima atualização': new Date(userItem.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
-          Status: (Number(user.permissao) > userItem?.permissao?.level && userItem.permissao !== 1000 )? <StatusSwitch key={userItem.id} user={userItem} callback={usersToSendDefine} /> : <></>,
+          Status: (Number(user.permissao) > userItem?.permissao?.level && userItem.permissao !== 1000 )? <StatusSwitch key={userItem.id} user={userItem} callback={setTooltipDetails} /> : <></>,
           Editar: Number(user.permissao) > userItem?.permissao?.level ? <ButtonEdit key={userItem.id} id={userItem.id} /> : <></>
         });
       });
@@ -99,27 +105,10 @@ export default function AdminPagesUsers() {
     })();
   }, [company, user]);
 
-  const usersToSendDefine = async (permission, status) => {
-    return setUsersToSend((usersToSend) => ([...usersToSend, {...permission, status}]));
-  };
-
-  const onSubmitPermission = async (e) => {
-    e.preventDefault();
-    try {
-      await Promise.all(usersToSend.map((users) => Usuarios.update(users.id, {
-        status: users.status,
-      })
-    ));
-      setTooltipDetails({ icon: 'sucess', text: 'Status dos usuários salvos com sucesso'});
-    } catch (e) {
-      setTooltipDetails({ icon: 'error', text: e});
-    }
-  };
-
   return (
     <Container>
-      <h1>Usuários</h1>
       <div className="status">
+        <h1>Usuários</h1>
         <div>
           {user.permissao === 1000 && <label className="formatted">
             <select
@@ -138,7 +127,7 @@ export default function AdminPagesUsers() {
           </button>
         </div>
       </div>
-      <form onSubmit={onSubmitPermission}>
+      <form>
         <div className="formatted">
           <label style={{ width: '95%', margin: '0 auto' }}>
             <Table
@@ -150,17 +139,11 @@ export default function AdminPagesUsers() {
         </div>
         <div className="buttons">
           <button
-            type="submit"
-            className="submit"
-          >
-            Salvar
-          </button>
-          <button
             type="button"
             className="cancel"
             onClick={() => navigate(pathnameBack)}
           >
-            Cancelar
+            Voltar
           </button>
         </div>
       </form>

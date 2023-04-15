@@ -7,6 +7,7 @@ import Table from '../../../components/Table';
 
 import { Empresas, Dashboards, Permissoes } from '../../../services/api.service';
 import { ThemeContext } from "../../../App";
+import { Delete } from "@mui/icons-material";
 
 const StatusSwitch = ({ dashboard, permissaoId, callback }) => {
   const initStatus = dashboard?.permissoes?.some((perm) => perm.permissaoId === Number(permissaoId));
@@ -107,14 +108,16 @@ export default function EditPermissions() {
 
   return (
     <Container>
-      <h1>Edição de Permissão</h1>
       <div className="status">
-        <span className="type">Status da permissão</span>
-        <Switch
-          size="medium"
-          checked={permissionsStatus}
-          onClick={() => togglePermissionsStatus(!permissionsStatus)}
-        />
+        <h1>Edição de Permissão</h1>
+        <button
+          type="button"
+          style={{ alignItems: 'center', display: 'flex', backgroundColor: 'transparent', border: 'none', color: 'red' }}
+          onClick={async () => {
+            await Permissoes.remove(params.id);
+            return navigate(pathnameBack);
+          }}
+        ><Delete /> Apagar empresa</button>
       </div>
       <form onSubmit={onSubmitDashboard}>
         <div className="formatted">
@@ -169,7 +172,7 @@ export default function EditPermissions() {
             className="cancel"
             onClick={() => navigate(pathnameBack)}
           >
-            Cancelar
+            Voltar
           </button>
         </div>
       </form>
