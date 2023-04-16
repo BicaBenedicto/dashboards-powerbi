@@ -96,7 +96,7 @@ export default function RegisterCompany() {
 
   return (
     <Container>
-      <h1>Cadastro de Empresas</h1>
+      <h1>Cadastro de Empresa</h1>
       <div className="status">
         <span className="type">Status da empresa</span>
         <Switch
@@ -214,7 +214,17 @@ export default function RegisterCompany() {
           <button
             type="button"
             className="cancel"
-            onClick={() => navigate(pathnameBack)}
+            onClick={() => {
+              setCnpj('');
+              setLogo();
+              setNomeFantasia('');
+              setRazaoSocial('');
+              setResponsavel('');
+              setEmailResponsavel('');
+              setTelefoneResponsavel('');
+              setResponsaveis([]);
+              return navigate(pathnameBack)
+            }}
           >
             Voltar
           </button>

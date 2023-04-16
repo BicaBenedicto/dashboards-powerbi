@@ -22,24 +22,28 @@ export default function SignIn({ toggleInSignInPage }) {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const user = await Usuarios.login({ email, senha: password });
+      const userApi = await Usuarios.login({ email, senha: password });
 
-      if(!user) {
+      if(!userApi) {
         setTooltipDetails({ icon: 'error', text: 'Usuário(a) não encontrado'});
         return;
       };
-      if(user?.empresa?.status === '0' || user?.empresa?.status === 'false') {
+      if(userApi?.empresa?.status === '0' || userApi?.empresa?.status === 'false') {
         localStorage.removeItem('@LOGIN');
         setUser({});
         return navigate('/company-offline');
       }
-      setUser(user);
-      localStorage.setItem('@LOGIN', JSON.stringify(user));
-      setTooltipDetails({ icon: 'sucess', text: 'Logado com sucesso'});
 
-      if (user?.empresa?.status === '1' || user?.empresa?.status === 'true') {
-        navigate('/dashboard');
+      if (userApi?.status === '0' || userApi?.status === 'false') {
+        localStorage.removeItem('@LOGIN');
+        setUser({});
+        return navigate('/user-offline');
       }
+
+      setUser(userApi);
+      localStorage.setItem('@LOGIN', JSON.stringify(userApi));
+      setTooltipDetails({ icon: 'sucess', text: 'Logado com sucesso'});
+      return navigate('/dashboard');
     } catch (e) {
       setTooltipDetails({ icon: 'error', text: 'Email e/ou senha incorretos, por favor tente novamente'});
     }

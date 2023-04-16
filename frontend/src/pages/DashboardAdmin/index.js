@@ -14,7 +14,7 @@ export default function Dashboard() {
   const ITEMS = MENU.find((item) => item.path === params).children;
   return (
     <Container>
-      <h1>Painel Administrativo</h1>
+      <h1>Configurações</h1>
       <ul>
         {ITEMS.filter((item) => item.permission <= Number(user.permissao)).map((item) => <li><button type="button" onClick={() => navigate(`${params}${item.path}`)}>{item.icon}<span>{item.name}</span></button></li>)}
       </ul>

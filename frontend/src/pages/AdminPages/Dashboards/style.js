@@ -17,10 +17,10 @@ div.status {
   width: 95%;
 
   div {
-    align-items: end;
+    align-items: center;
     display: flex;
-    flex-direction: column;
-    width: 20%;
+    flex-direction: row;
+    max-width: 40%;
   }
 
   button {
@@ -32,6 +32,7 @@ div.status {
     font-size: 1em;
     padding: 10px 15px;
     margin: 0 2.5%;
+    width: 80%;
   }
 
   label.formatted {
@@ -54,7 +55,7 @@ div.status {
       padding: 2%;
       font-size: 1em;
       position: relative;
-      width: 96%;
+      width: 100%;
     }
 
     select {

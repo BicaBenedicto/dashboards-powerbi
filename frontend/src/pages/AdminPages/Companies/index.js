@@ -13,7 +13,7 @@ import { maskCnpj } from '../../../utils/maskConvert';
 import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ company, callback }) => {
-  const initStatus = Boolean(company?.status);
+  const initStatus = company?.status === "1" || company?.status === "true";
   const [status, setStatus] = useState(initStatus);
 
   const onSwitchChange = async () => {
@@ -62,12 +62,12 @@ export default function AdminPagesCompanies() {
 
       const empresasFormatted = empresas.map((company) => {
         return ({
-          id: company.id,
+          Id: company.id,
           Nome: company.nome,
           'Razão social': company.razaoSocial,
           CNPJ: maskCnpj(company.cnpj),
           'Data de criação': new Date(company.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
-          'Ultima atualização': new Date(company.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+          'Última atualização': new Date(company.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           Status: company.id !== 1 ? <StatusSwitch key={company.id} company={company} callback={setTooltipDetails} /> : '',
           Editar: company.id !== 1 ? <ButtonEdit key={company.id} id={company.id}/> : ''
         })

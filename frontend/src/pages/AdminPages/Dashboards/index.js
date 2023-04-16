@@ -12,7 +12,7 @@ import { Empresas, Dashboards } from '../../../services/api.service';
 import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ dashboard, callback }) => {
-  const initStatus = Boolean(dashboard?.status);
+  const initStatus = dashboard?.status === "1" || dashboard?.status === "true";
   const [status, setStatus] = useState(initStatus);
   
   const onSwitchChange = async () => {
@@ -73,7 +73,7 @@ export default function AdminPagesDashboards() {
 
       const dashboardFormatted = dashboards.map((dash) => {
         return ({
-          id: dash.id,
+          Id: dash.id,
           Nome: dash.nome,
           URL: dash.url,
           'Descrição': dash.descricao,

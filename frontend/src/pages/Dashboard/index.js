@@ -45,18 +45,18 @@ export default function Dashboard() {
         <h1>Dashboard</h1>
         <div className="dashboards-select">
           {user?.permissaoInfo?.level === 1000 && <>
-            <span className="type">Empresas: </span>
+            <span className="type">Empresa: </span>
             <select
-              placeholder="Empresas"
+              placeholder="Empresa"
               value={company}
               onChange={(e) => setCompany(e.target.value)}
             >
               {companies?.length > 0 && companies.map((comp) => <option key={comp.id} value={comp.id}>{comp.razaoSocial}</option>)}
             </select>
           </>}
-          <span className="type">Dashboards: </span>
+          <span className="type">Dashboard: </span>
           <select
-            placeholder="Dashboards"
+            placeholder="Dashboard"
             value={dashboard}
             onChange={(e) => setDashboard(e.target.value)}
           >

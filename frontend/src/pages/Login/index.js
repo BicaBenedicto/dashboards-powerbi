@@ -14,7 +14,7 @@ export default function Login() {
   return (
     <Container>
       {tooltipDetails && <Tooltip className='tooltip-layout' title="Yo" children={<div>{tooltipDetails.icon}<span>{tooltipDetails.text}</span><button onClick={() => setTooltipDetails('')}>X</button></div>}/>}
-      <h1 id="title-login">Dashboard de Power BI</h1>
+      <h1 id="title-login">DataX - BI</h1>
       <section>
         <h3>{inSignInPage ? 'Login' : 'Recuperar senha'}</h3>
         <div className="linhas">

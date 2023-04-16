@@ -117,7 +117,7 @@ export default function EditPermissions() {
             await Permissoes.remove(params.id);
             return navigate(pathnameBack);
           }}
-        ><Delete /> Apagar empresa</button>
+        ><Delete /> Apagar permissão</button>
       </div>
       <form onSubmit={onSubmitDashboard}>
         <div className="formatted">
@@ -141,10 +141,10 @@ export default function EditPermissions() {
             </select>
           </label>
           <label className="formatted">
-            <span>Level</span>
+            <span>Nível</span>
               <input
                 type="number"
-                placeholder="Level de permissão - 1 (menor) e 5 (maior)"
+                placeholder="Nível de permissão - 1 (menor) e 5 (maior)"
                 value={level}
                 max="5"
                 min="1"

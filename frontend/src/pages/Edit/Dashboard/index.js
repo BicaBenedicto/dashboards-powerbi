@@ -68,7 +68,7 @@ export default function EditDashboard() {
             await Dashboards.remove(params.id);
             return navigate(pathnameBack);
           }}
-        ><Delete /> Apagar empresa</button>
+        ><Delete /> Apagar dashboard</button>
       </div>
       <form onSubmit={onSubmitDashboard}>
         <div>

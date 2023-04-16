@@ -58,7 +58,7 @@ header.header-layout {
   align-items: center;
   background-color: white;
   display: flex;
-  padding: 20px 0;
+  padding: 1px 0;
   justify-content: space-between;
 
   h1 {
@@ -99,7 +99,27 @@ section.section-layout {
     width: 5%;
 
     nav {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 80vh;
       width: 100%;
+
+      footer {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        height: content;
+        text-align: center;
+
+        h6 {
+          display: block;
+          margin: 0;
+          padding: 0;
+        }
+      }
 
       ul {
         align-items: center;

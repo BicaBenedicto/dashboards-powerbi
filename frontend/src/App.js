@@ -10,6 +10,7 @@ import Layout from './components/Layout';
 
 import Login from './pages/Login';
 import CompanyOffline from './pages/CompanyOffline';
+import UserOffline from './pages/UserOffline';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import DashboardAdmin from './pages/DashboardAdmin';
@@ -68,6 +69,7 @@ export default function App() {
         <Route path="/dashboard" element={ <Layout><Dashboard /></Layout> } />
         <Route path="/profile" element={ <Layout><Profile /></Layout> } />
         <Route path="/company-offline" element={ <CompanyOffline/> } />
+        <Route path="/user-offline" element={ <UserOffline/> } />
         <Route path="*" element={ <Login /> } />
       </Routes>
     </ThemeContext.Provider>

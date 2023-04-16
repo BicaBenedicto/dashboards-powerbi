@@ -12,7 +12,7 @@ import { Empresas, Permissoes } from '../../../services/api.service';
 import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ permission, callback }) => {
-  const initStatus = Boolean(permission?.status);
+  const initStatus = permission?.status === "1" || permission?.status === "true";
   const [status, setStatus] = useState(initStatus);
 
   const onSwitchChange = async () => {
@@ -73,9 +73,9 @@ export default function AdminPagesPermissions() {
 
       const permissionsFormatted = permissoes.map((permission) => {
         return ({
-          id: permission.id,
+          Id: permission.id,
           Nome: permission.nome,
-          Level: permission.level,
+          'Nível': permission.level,
           Empresa: companies.find((comp) => comp.id === Number(permission.empresaId))?.razaoSocial,
           Status: <StatusSwitch key={permission.id} permission={permission} callback={setTooltipDetails} />,
           Editar: <ButtonEdit key={permission.id} id={permission.id} />

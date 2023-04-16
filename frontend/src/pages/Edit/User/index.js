@@ -49,7 +49,7 @@ export default function EditUsers() {
     try {
       if (Number(permission) === 1 && Number(company) !== 1) {
         const empresa = companies.find((emp) => emp.id === Number(company));
-        setTooltipDetails({ icon: 'error', text: "Ops, a permissão que está tentou cadastrar para uma empresa diferente, por favor recarregue a página e tenta novamente."});
+        setTooltipDetails({ icon: 'error', text: "Ops, a permissão que tentou cadastrar é de uma empresa diferente, por favor recarregue a página e tenta novamente."});
         setPermission(empresa?.permissoes[0]?.id);
         return;
       }
@@ -78,7 +78,7 @@ export default function EditUsers() {
             await Usuarios.remove(params.id);
             return navigate(pathnameBack);
           }}
-        ><Delete /> Apagar empresa</button>
+        ><Delete /> Apagar usuário</button>
       </div>
       <br />
       {/* <div className="status">

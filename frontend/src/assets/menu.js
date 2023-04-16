@@ -21,22 +21,22 @@ const MENU = [
     permission: 1,
   },
   {
-    name: 'Painel Administrativo',
+    name: 'Configurações',
     icon: <AppRegistration />,
     path: '/dashboard-admin',
-    permission: 2,
+    permission: 4,
     children: [
-      {
-        name: 'Usuários',
-        path: '/users',
-        icon: <Group />,
-        permission: 2,
-      },
       {
         name: 'Empresas',
         path: '/companies',
         icon: <Business />,
         permission: 1000,
+      },
+      {
+        name: 'Usuários',
+        path: '/users',
+        icon: <Group />,
+        permission: 4,
       },
       {
         name: 'Dashboards',

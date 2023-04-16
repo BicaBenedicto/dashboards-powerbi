@@ -12,7 +12,7 @@ import { Empresas, Usuarios } from '../../../services/api.service';
 import { ThemeContext } from "../../../App";
 
 const StatusSwitch = ({ user, callback }) => {
-  const initStatus = Boolean(user?.status);
+  const initStatus = user?.status === "1" || user?.status === "true";
   const [status, setStatus] = useState(initStatus);
 
   const onSwitchChange = async () => {
@@ -72,22 +72,22 @@ export default function AdminPagesUsers() {
 
       let usersFormatted = usuarios.filter((userItem) =>  user?.permissao === 1000 || userItem?.permissao?.empresaId === user?.permissaoInfo?.empresaId).map((userItem) => {
         return user?.permissao === 1000 ? ({
-          id: userItem.id,
+          Id: userItem.id,
           Nome: userItem.nome,
           Email: userItem.email,
           Permissão: userItem?.permissao?.nome,
           Empresa: userItem?.empresa?.razaoSocial,
           'Data de criação': new Date(userItem.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
-          'Ultima atualização': new Date(userItem.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+          'Última atualização': new Date(userItem.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           Status: (Number(user.permissao) > userItem?.permissao?.level && userItem.permissao !== 1000 )? <StatusSwitch key={userItem.id} user={userItem} callback={setTooltipDetails} /> : <></>,
-          Editar: Number(user.permissao) > userItem?.permissao?.level ? <ButtonEdit key={userItem.id} id={userItem.id} /> : <></>
+          Editar: Number(user.permissao) >= userItem?.permissao?.level ? <ButtonEdit key={userItem.id} id={userItem.id} /> : <></>
         }) : ({
-          id: userItem.id,
+          Id: userItem.id,
           Nome: userItem.nome,
           Email: userItem.email,
           Permissão: userItem?.permissao?.nome,
           'Data de criação': new Date(userItem.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
-          'Ultima atualização': new Date(userItem.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+          'Última atualização': new Date(userItem.updatedAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           Status: (Number(user.permissao) > userItem?.permissao?.level && userItem.permissao !== 1000 )? <StatusSwitch key={userItem.id} user={userItem} callback={setTooltipDetails} /> : <></>,
           Editar: Number(user.permissao) > userItem?.permissao?.level ? <ButtonEdit key={userItem.id} id={userItem.id} /> : <></>
         });

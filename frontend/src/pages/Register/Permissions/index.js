@@ -26,7 +26,7 @@ export default function RegisterPermissions() {
   const pathnameBack = location.pathname.split('/').filter((_v, index, array) => index !== (array.length - 1)).join('/');
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
-  const [level, setLevel] = useState();
+  const [level, setLevel] = useState('');
   const [companies, setCompanies] = useState([]);
   const [dashboards, setDashboards] = useState([]);
   const [dashboardsToSend, setDashboardsToSend] = useState([]);
@@ -87,6 +87,7 @@ export default function RegisterPermissions() {
       });
 
       setName('');
+      setLevel('');
       setTooltipDetails({ icon: 'sucess', text: 'Permissão cadastrada com sucesso'});
     } catch (e) {
       setTooltipDetails({ icon: 'error', text: e});
@@ -126,10 +127,10 @@ export default function RegisterPermissions() {
             </select>
           </label>
           <label className="formatted">
-            <span>Level</span>
+            <span>Nível</span>
               <input
                 type="number"
-                placeholder="Level de permissão - 1 (menor) e 5 (maior)"
+                placeholder="Nível de permissão - 1 (menor) e 5 (maior)"
                 value={level}
                 max="5"
                 min="1"
@@ -155,7 +156,11 @@ export default function RegisterPermissions() {
           <button
             type="button"
             className="cancel"
-            onClick={() => navigate(pathnameBack)}
+            onClick={() => {
+              setName('');
+              setLevel('');
+              return navigate(pathnameBack);
+            }}
           >
             Voltar
           </button>

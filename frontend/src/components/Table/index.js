@@ -86,7 +86,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={'center'}
+            align={headCell.label.toLowerCase() === 'nome' ? 'left' : 'center'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -221,8 +221,8 @@ export default function EnhancedTable({ rows, headCells, title }) {
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [dense, setDense] = React.useState(true);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -327,11 +327,12 @@ export default function EnhancedTable({ rows, headCells, title }) {
                         component="th"
                         id={labelId}
                         scope="row"
-                        align="left"
+                        align="center"
                       >
-                        {row.id}
+                        {row.id || row.Id || row.ID}
                       </TableCell>
-                      {Object.entries(row).filter((rw) => rw[0] !== 'id').map((rw) => <TableCell style={{ maxWidth: '20vw', overflowWrap: 'break-word' }} key={rw[0] + ''  + rw[1]} align="center">{rw[1]}</TableCell>)}
+                      {Object.entries(row).filter((rw) => rw[0].toLowerCase() !== 'id')
+                        .map((rw) => <TableCell style={{ maxWidth: '20vw', overflowWrap: 'break-word' }} key={rw[0] + ''  + rw[1]} align={rw[0].toLocaleLowerCase() === 'nome' ? 'left' : "center"}>{rw[1]}</TableCell>)}
                     </TableRow>
                   );
                 })}
@@ -348,7 +349,7 @@ export default function EnhancedTable({ rows, headCells, title }) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 35, 40, 45, 50]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}

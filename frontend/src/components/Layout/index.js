@@ -23,10 +23,16 @@ export default function Layout({ children }) {
       const intervalId = setInterval(() => {
       (async () => {
         const [userApi] = await Usuarios.get(`id=${user?.id}`);
-          if (userApi?.empresa?.status === '0' || userApi?.empresa?.status === 'false') {
+
+        if (userApi?.empresa?.status === '0' || userApi?.empresa?.status === 'false') {
             localStorage.removeItem('@LOGIN');
             setUser({});
             navigate('/company-offline');
+          }
+          if (userApi?.status === '0' || userApi?.status === 'false') {
+            localStorage.removeItem('@LOGIN');
+            setUser({});
+            navigate('/user-offline');
           }
         })();
       }, (MINUTES_REFRESH_USER * 60 * 1000));
@@ -52,6 +58,11 @@ export default function Layout({ children }) {
           setUser({});
           navigate('/company-offline');
         }
+        if (userApi?.status === '0' || userApi?.status === 'false') {
+          localStorage.removeItem('@LOGIN');
+          setUser({});
+          navigate('/user-offline');
+        }
       })();
     }
   }, [setUser]);
@@ -62,28 +73,26 @@ export default function Layout({ children }) {
     return navigate('/');
   };
 
-  // useEffect(() => {
-  //   if (MENU.some((item) => (location.pathname.includes(item.path) || location.pathname === item.path) && (
-  //     item.permission > Number(user.permissao)
-  //     || !user.nome
-  //     ))) {
-  //     if (!user.nome) navigate('/');
-  //     else navigate('/dashboard');
-  //   }
-  // }, [location, user, navigate]);
+  useEffect(() => {
+    if (MENU.some((item) => (location.pathname.includes(item.path) || location.pathname === item.path) && (
+      item.permission > Number(user.permissao)
+      || !user.nome
+      ))) {
+      if (!user.nome) navigate('/');
+      else navigate('/dashboard');
+    }
+  }, [location, user, navigate]);
 
   return (
     <Container>
       <header className='header-layout'>
         <button type="button" className="menu-button" onClick={() => toggleDisplayNameMenu(!displayNameMenu)}><Menu /></button>
-        <h1>Dashboards Power BI</h1>
+        <h1>DataX - BI</h1>
+        <h4>{user?.empresa?.razaoSocial}</h4>
         <div>
           <h4>{user?.nome}</h4>
           <span>{user?.permissaoInfo?.nome}</span>
         </div>
-        <button type="button" onClick={onLogoutButton} className="logout">
-          Sair
-        </button>
       </header>
       {tooltipDetails && <Tooltip className='tooltip-layout' title="Yo" children={<div>{tooltipDetails.icon}<span>{tooltipDetails.text}</span><button onClick={() => setTooltipDetails('')}>X</button></div>}/>}
       <section className='section-layout'>
@@ -99,6 +108,14 @@ export default function Layout({ children }) {
                 </li>
               )}
             </ul>
+            <footer>
+              <button type="button" onClick={onLogoutButton} className="logout">
+                Sair
+              </button>
+              <h6>@2023 - Matos TI</h6>
+            <br/>
+              <h6>1.0.0</h6>
+          </footer>
           </nav>
         </aside>
         <main className='main-layout'>
