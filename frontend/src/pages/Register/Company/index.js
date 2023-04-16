@@ -72,6 +72,10 @@ export default function RegisterCompany() {
   const onSubmitCompany = async (e) => {
     e.preventDefault();
     try {
+      if(responsaveis.length === 0) {
+        return setTooltipDetails({ icon: 'error', text: "Regra de negócio: A empresa precisa de pelo menos 1 responsável"});;
+      }
+
       await Empresas.create({
         nome: nomeFantasia,
         cnpj: cnpj.replace(/[^\d]/g, ""),
