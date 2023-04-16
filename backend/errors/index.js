@@ -24,6 +24,10 @@ const handdleGenericErrors = (error, _request, response, _next) => {
     return response.status(400).json({ message: details.message });
   }
 
+  if (error.statusCode) {
+    return response.status(error.statusCode).json({ message: error.message });
+  }
+
   return response.status(500).json({ message: 'Internal error' });
 };
 

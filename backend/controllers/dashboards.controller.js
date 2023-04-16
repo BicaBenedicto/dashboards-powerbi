@@ -5,6 +5,10 @@ const get = async (require, response, next) => {
     const query = require.query;
 
     const dashboards = await Dashboards.findAll({
+      order: [
+        ['empresaId', 'asc'],
+        ['id', 'ASC'],
+      ],
       where: query,
       attributes: [
         'id',

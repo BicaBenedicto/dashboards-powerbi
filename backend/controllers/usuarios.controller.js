@@ -92,7 +92,9 @@ const create = async (require, response, next) => {
 
     const password = await bcrypt.hash(senha, 10);
 
-    const usuario = await Usuarios.findOrCreate({ where: { email }, default: { email, nome, senha: password, empresaId, permissao, status }});
+    const [usuario, created] = await Usuarios.findOrCreate({ where: { email }, default: { email, nome, senha: password, empresaId, permissao, status }});
+
+    if(!created) throw { statusCode: 409, message: "Usuário existente no sistema com este e-mail" };
 
     const permissaoGet = await Permissoes.findByPk(usuario.dataValues.permissao);
 

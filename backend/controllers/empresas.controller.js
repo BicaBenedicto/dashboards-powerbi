@@ -13,6 +13,9 @@ const get = async (require, response, next) => {
     const query = require.query;
 
     const empresas = await Empresas.findAll({
+      order: [
+        ['razaoSocial', 'ASC'],
+      ],
       where: query,
       attributes: [
         'id',
@@ -64,7 +67,7 @@ const create = async (require, response, next) => {
     const { nome, cnpj, razaoSocial, status, responsaveis } = require.body;
     let responsaveisSaida = [];
 
-    const empresa = await Empresas.findOrCreate({
+    const [empresa, created] = await Empresas.findOrCreate({
       where: { cnpj, razaoSocial },
       default: {
         nome,
@@ -73,6 +76,8 @@ const create = async (require, response, next) => {
         status,
       }
     });
+
+    if(!created) throw { statusCode: 409, message: "Empresa existente no sistema com este CNPJ ou Razão Social" };
 
     const permissoes = await Promise.all(PERMISSIONS_DEFAULT.map(async (resp) => await Permissoes.create({
       nome: resp.nome,
