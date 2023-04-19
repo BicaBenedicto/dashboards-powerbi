@@ -56,13 +56,24 @@ div.status {
 
 div.dashboard {
   height: 100%;
+  position: relative;
   width: 100%;
 
   iframe {
     border: none;
     border-radius: 20px;
-    min-height 70vh;
+    min-height 110vh;
     height: 100%;
+    width: 100%;
+  }
+
+  hr {
+    background: rgb(247, 247, 252);
+    border: none;
+    bottom: -5px;
+    left: 0;
+    height: 56px;
+    position: absolute;
     width: 100%;
   }
 }

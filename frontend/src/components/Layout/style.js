@@ -4,9 +4,11 @@ export const Container = styled.section`
 display: flex;
 flex-direction: column;
 background-color: ${({theme}) => theme.background};
+justify-content: space-between;
 color: ${({theme}) => theme.text};
 position: relative;
 min-height: 100vh;
+height: 100%;
 width: 100%;
 
 h1 {
@@ -81,6 +83,20 @@ header.header-layout {
     margin-left: 10px;
   }
 }
+
+
+footer {
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  width: 100%;
+  h6 {
+    padding: 0;
+    margin: 1em;
+  }
+}
+
 
 section.section-layout {
   align-items: start;

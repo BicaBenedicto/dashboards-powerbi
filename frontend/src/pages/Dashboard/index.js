@@ -65,11 +65,14 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="dashboard">
-        {dashboardsFiltered?.length > 0 && <iframe
-          src={dashboardsFiltered?.find((dash) => dash?.id === Number(dashboard))?.url}
-          height='100%'
-          width='100%'
-        />}
+        {dashboardsFiltered?.length > 0 && <>
+          <iframe
+            src={dashboardsFiltered?.find((dash) => dash?.id === Number(dashboard))?.url}
+            height='100%'
+            width='100%'
+          />
+          <hr/>
+        </>}
       </div>
     </Container>
   );

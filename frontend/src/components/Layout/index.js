@@ -112,9 +112,6 @@ export default function Layout({ children }) {
               <button type="button" onClick={onLogoutButton} className="logout">
                 Sair
               </button>
-              <h6>@2023 - Matos TI</h6>
-            <br/>
-              <h6>1.0.0</h6>
           </footer>
           </nav>
         </aside>
@@ -122,6 +119,9 @@ export default function Layout({ children }) {
           {children}
         </main>
       </section>
+      <footer>
+        <h6>@2023 - Matos TI - 1.0.0</h6>
+      </footer>
     </Container>
   );
 }
