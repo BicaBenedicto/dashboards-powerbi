@@ -99,7 +99,7 @@ footer {
 
 
 section.section-layout {
-  align-items: start;
+  align-items: stretch;
   display: flex;
   margin-top: 5px;
   justify-content: stretch;
@@ -111,7 +111,7 @@ section.section-layout {
     background-color: white;
     display: flex;
     transition: 0.2s;
-    min-height: 80vh;
+    min-height: 100%;
     width: 5%;
 
     nav {
@@ -120,6 +120,7 @@ section.section-layout {
       flex-direction: column;
       justify-content: space-between;
       min-height: 80vh;
+      height: 100%;
       width: 100%;
 
       footer {
