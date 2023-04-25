@@ -71,30 +71,31 @@ export default function RegisterUsers() {
 
   return (
     <Container>
-      <h1>Cadastro de Usuário</h1>
       <div className="status">
-        <span className="type">Status do usuário</span>
-        <Switch
-          size="medium"
-          checked={usersStatus}
-          onClick={() => toggleUsersStatus(!usersStatus)}
-        />
-      </div>
-      <br />
-      <div className="status">
-        <span className="type">Senha padrão:</span>
-        <input
-          type="text"
-          placeholder="@123456@"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          disabled={!editPassword}
-          className="password"
-        />
-        <button
-          type="button"
-          onClick={() => toggleEditPassword(!editPassword)}
-        ><Edit /></button>
+        <h1>Cadastro de Usuário</h1>
+        <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
+          <span className="type">Status do usuário</span>
+          <Switch
+            size="medium"
+            checked={usersStatus}
+            onClick={() => toggleUsersStatus(!usersStatus)}
+          />
+        </div>
+        <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
+          <span className="type">Senha padrão:</span>
+          <input
+            type="text"
+            placeholder="@123456@"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={!editPassword}
+            className="password"
+          />
+          <button
+            type="button"
+            onClick={() => toggleEditPassword(!editPassword)}
+          ><Edit /></button>
+        </div>
       </div>
       <form onSubmit={onSubmitDashboard}>
         <div>

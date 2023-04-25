@@ -39,7 +39,7 @@ export default function EditCompany() {
       setRazaoSocial(resp.razaoSocial);
       setNomeFantasia(resp.nome);
       setResponsaveis(resp.responsaveis);
-      toggleCompanyStatus(!!Number(resp.status));
+      toggleCompanyStatus(resp.status === '1' || resp.status === 'true');
       setCreatedAt(resp.createdAt);
     })();
   }, []);
@@ -109,6 +109,14 @@ export default function EditCompany() {
     <Container>
       <div className="status">
         <h1>Edição de Empresas</h1>
+        <div>
+          <span className="type">Status da empresa</span>
+          <Switch
+            size="medium"
+            checked={companyStatus}
+            onClick={() => toggleCompanyStatus(!companyStatus)}
+          />
+        </div>
         <button
           type="button"
           style={{ alignItems: 'center', display: 'flex', backgroundColor: 'transparent', border: 'none', color: 'red' }}
@@ -164,7 +172,7 @@ export default function EditCompany() {
               onChange={(e) => setNomeFantasia(e.target.value)}
             />
           </label>
-          <div>
+          <div className="responsavel-add">
             <label>
               <span>Responsável</span>
               <input
@@ -209,7 +217,7 @@ export default function EditCompany() {
           <ul>
             {responsaveis.map((resp, index) => 
               <>
-                <li key={index}>
+                <li className="responsavel-add" key={index}>
                   <b>Nome: </b>{resp.nome}, <b>E-mail: </b>{resp.email}, <b>Telefone: </b>{convertTel(resp.telefone)} <button className="icon icon-remove" onClick={() => onRemoveResponsavelButton(index)}><DisabledByDefault /></button>
                 </li>
                 <br/>

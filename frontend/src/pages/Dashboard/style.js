@@ -10,7 +10,7 @@ height: 100%;
 width: 100%;
 
 h1 {
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 div.status {
@@ -19,6 +19,11 @@ div.status {
   justify-content: space-between;
   margin: 0 auto;
   width: 95%;
+
+  select {
+    margin: 0 10px;
+    width: 50%;
+  }
 
   div.dashboards-select {
     align-items: center;

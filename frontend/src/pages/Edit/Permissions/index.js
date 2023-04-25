@@ -46,7 +46,7 @@ export default function EditPermissions() {
       setCompany(permission.empresaId);
       setName(permission.nome);
       setLevel(permission.level);
-      togglePermissionsStatus(!!Number(permission.status));
+      togglePermissionsStatus(permission.status === '1' || permission.status === 'true');
       setCreatedAt(permission.createdAt);
     })();
   }, []);
@@ -64,11 +64,11 @@ export default function EditPermissions() {
       const dashboardFormatted = dashboards.map((dash) => {
 
         return ({
-          id: dash.id,
-          nome: dash.nome,
-          url: dash.url,
-          descricao: dash.descricao,
-          status: <StatusSwitch dashboard={dash} callback={dashboardsToSendDefine} permissaoId={params.id}/>
+          Id: dash.id,
+          Nome: dash.nome,
+          URL: dash.url,
+          'Descrição': dash.descricao,
+          Status: <StatusSwitch dashboard={dash} callback={dashboardsToSendDefine} permissaoId={params.id}/>
         })
       });
 
@@ -110,6 +110,14 @@ export default function EditPermissions() {
     <Container>
       <div className="status">
         <h1>Edição de Permissão</h1>
+        <div>
+          <span className="type">Status da permissão</span>
+          <Switch
+            size="medium"
+            checked={permissionsStatus}
+            onClick={() => togglePermissionsStatus(!permissionsStatus)}
+          />
+        </div>
         <button
           type="button"
           style={{ alignItems: 'center', display: 'flex', backgroundColor: 'transparent', border: 'none', color: 'red' }}

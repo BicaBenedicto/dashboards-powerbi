@@ -94,7 +94,18 @@ export default function Layout({ children }) {
           <span>{user?.permissaoInfo?.nome}</span>
         </div>
       </header>
-      {tooltipDetails && <Tooltip className='tooltip-layout' title="Yo" children={<div>{tooltipDetails.icon}<span>{tooltipDetails.text}</span><button onClick={() => setTooltipDetails('')}>X</button></div>}/>}
+      {tooltipDetails && <Tooltip
+        className='tooltip-layout'
+        children={
+          <div>
+            {tooltipDetails.icon}
+            <span>{tooltipDetails.text}</span>
+            <button onClick={() => setTooltipDetails('')}>{
+            // Para ativar o fechar do tooltip, descomente o X
+            // X
+            }</button>
+          </div>
+      }/>}
       <section className='section-layout'>
         <aside className={`aside-layout ${displayNameMenu ? 'active' : ''}`}>
           <nav>

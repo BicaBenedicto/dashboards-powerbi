@@ -92,11 +92,11 @@ const create = async (require, response, next) => {
 
     const password = await bcrypt.hash(senha, 10);
 
-    const [usuario, created] = await Usuarios.findOrCreate({ where: { email }, default: { email, nome, senha: password, empresaId, permissao, status }});
+    const [usuario, created] = await Usuarios.findOrCreate({ where: { email }, defaults: { email, nome, senha: password, empresaId, permissao, status }});
 
     if(!created) throw { statusCode: 409, message: "Usuário existente no sistema com este e-mail" };
 
-    const permissaoGet = await Permissoes.findByPk(usuario.dataValues.permissao);
+    const permissaoGet = await Permissoes.findByPk(permissao);
 
     return response.status(201).json({...usuario.dataValues, senha: '******', permissao: ({...permissaoGet.dataValues})});
   } catch (e) {

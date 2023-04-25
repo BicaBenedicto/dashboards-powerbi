@@ -266,4 +266,12 @@ section.section-layout {
     }
   }
 }
+
+@media only screen and (max-width: 1000px) {
+  main.main-layout {
+    padding: 0!important;
+    margin: 0 auto!important;
+    width: 95%!important;
+  }
+}
 `;

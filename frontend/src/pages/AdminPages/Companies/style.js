@@ -6,7 +6,7 @@ color: ${({theme}) => theme.text};
 padding: 20px 0;
 
 h1 {
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 div.status {
@@ -38,7 +38,7 @@ form {
 
   h3.date-register {
     align-self: start;
-    font-size: 1.5em;
+    font-size: 1em;
     margin-left: 2.5%;
   }
 
@@ -74,7 +74,7 @@ form {
       width: 95%;
 
       span {
-        font-size: 1.5em;
+        font-size: 1em;
         font-weight: bold;
         padding: 2px 10px;
       }
@@ -83,7 +83,7 @@ form {
         border: 1px solid ${({theme}) => theme.primaryBackground};
         border-radius: 10px;
         padding: 5%;
-        font-size: 1.5em;
+        font-size: 1em;
         position: relative;
         width: 90%;
       }

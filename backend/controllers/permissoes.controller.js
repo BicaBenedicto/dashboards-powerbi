@@ -38,7 +38,7 @@ const update = async (require, response, next) => {
         return await DashboardsPermissoes
           .findOrCreate({
             where: { dashboardId: dash.id, permissaoId: id },
-            default: { dashboardId: dash.id, permissaoId: id },
+            defaults: { dashboardId: dash.id, permissaoId: id },
           });
       }));
     }

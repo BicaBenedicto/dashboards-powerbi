@@ -45,7 +45,7 @@ export default function SignIn({ toggleInSignInPage }) {
       setTooltipDetails({ icon: 'sucess', text: 'Logado com sucesso'});
       return navigate('/dashboard');
     } catch (e) {
-      setTooltipDetails({ icon: 'error', text: 'Email e/ou senha incorretos, por favor tente novamente'});
+      setTooltipDetails({ icon: 'error', text: 'E-mail e/ou senha incorretos, por favor tente novamente'});
     }
   };
 

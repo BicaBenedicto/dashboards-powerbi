@@ -69,7 +69,7 @@ const create = async (require, response, next) => {
 
     const [empresa, created] = await Empresas.findOrCreate({
       where: { cnpj, razaoSocial },
-      default: {
+      defaults: {
         nome,
         cnpj,
         razaoSocial,

@@ -38,7 +38,7 @@ export default function EditUsers() {
         setPermission(user.permissao.id);
         setName(user.nome);
         setEmail(user.email);
-        toggleUsersStatus(!!Number(user.status));
+        toggleUsersStatus(user.status === '1' || user.status === 'true');
         setCreatedAt(user.createdAt);
       })();
     }
@@ -71,6 +71,14 @@ export default function EditUsers() {
     <Container>
       <div className="status">
         <h1>Edição de Usuário</h1>
+        <div>
+          <span className="type">Status do usuário</span>
+          <Switch
+            size="medium"
+            checked={usersStatus}
+            onClick={() => toggleUsersStatus(!usersStatus)}
+          />
+        </div>
         <button
           type="button"
           style={{ alignItems: 'center', display: 'flex', backgroundColor: 'transparent', border: 'none', color: 'red' }}

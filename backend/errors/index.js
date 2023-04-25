@@ -14,6 +14,7 @@ const TYPES = {
 };
 
 const handdleGenericErrors = (error, _request, response, _next) => {
+  console.log(error, "ERRO");
   if (TYPES[error]) {
     const { code, message } = TYPES[error];
     return response.status(code).json({ message });

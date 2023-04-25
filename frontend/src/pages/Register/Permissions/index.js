@@ -49,11 +49,11 @@ export default function RegisterPermissions() {
       const dashboardFormatted = dashboards.map((dash) => {
 
         return ({
-          id: dash.id,
-          nome: dash.nome,
-          url: dash.url,
-          descricao: dash.descricao,
-          status: <StatusSwitch dashboard={dash} callback={dashboardsToSendDefine} />
+          Id: dash.id,
+          Nome: dash.nome,
+          URL: dash.url,
+          'Descrição': dash.descricao,
+          Status: <StatusSwitch dashboard={dash} callback={dashboardsToSendDefine} />
         })
       });
 
@@ -96,14 +96,16 @@ export default function RegisterPermissions() {
 
   return (
     <Container>
-      <h1>Cadastro de Permissão</h1>
       <div className="status">
-        <span className="type">Status da permissão</span>
-        <Switch
-          size="medium"
-          checked={permissionsStatus}
-          onClick={() => togglePermissionsStatus(!permissionsStatus)}
-        />
+        <h1>Cadastro de Permissão</h1>
+        <div>
+          <span className="type">Status da permissão</span>
+          <Switch
+            size="medium"
+            checked={permissionsStatus}
+            onClick={() => togglePermissionsStatus(!permissionsStatus)}
+          />
+        </div>
       </div>
       <form onSubmit={onSubmitDashboard}>
         <div className="formatted">

@@ -196,4 +196,15 @@ form {
     }
   }
 }
+
+@media only screen and (max-width: 1000px) {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .responsavel-add {
+    display: flex;
+    flex-direction: column;
+  }
+}
 `;

@@ -43,6 +43,13 @@ export default function Dashboard() {
     <Container>
       <div className="status">
         <h1>Dashboard</h1>
+        <select
+            placeholder="Dashboard"
+            value={dashboard}
+            onChange={(e) => setDashboard(e.target.value)}
+          >
+            {dashboardsFiltered?.length > 0 && dashboardsFiltered.map((dash) => <option key={dash.id} value={dash.id}>{dash.nome}</option>)}
+        </select>
         <div className="dashboards-select">
           {user?.permissaoInfo?.level === 1000 && <>
             <span className="type">Empresa: </span>
@@ -53,15 +60,7 @@ export default function Dashboard() {
             >
               {companies?.length > 0 && companies.map((comp) => <option key={comp.id} value={comp.id}>{comp.razaoSocial}</option>)}
             </select>
-          </>}
-          <span className="type">Dashboard: </span>
-          <select
-            placeholder="Dashboard"
-            value={dashboard}
-            onChange={(e) => setDashboard(e.target.value)}
-          >
-            {dashboardsFiltered?.length > 0 && dashboardsFiltered.map((dash) => <option key={dash.id} value={dash.id}>{dash.nome}</option>)}
-          </select>
+          </>}  
         </div>
       </div>
       <div className="dashboard">

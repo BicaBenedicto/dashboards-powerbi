@@ -89,6 +89,9 @@ function EnhancedTableHead(props) {
             align={headCell.label.toLowerCase() === 'nome' ? 'left' : 'center'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
+            style={{
+              fontSize: '1em',
+            }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -121,6 +124,8 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
   const { numSelected, title } = props;
 
+  if(!title) return <></>;
+
   return (
     <Toolbar
       sx={{
@@ -147,6 +152,7 @@ function EnhancedTableToolbar(props) {
           variant="h6"
           id="tableTitle"
           component="div"
+          style={{ fontSize: '1.3em' }}
         >
           {title}
         </Typography>
@@ -328,11 +334,14 @@ export default function EnhancedTable({ rows, headCells, title }) {
                         id={labelId}
                         scope="row"
                         align="center"
+                        style={{
+                          fontSize: '1em',
+                        }}
                       >
                         {row.id || row.Id || row.ID}
                       </TableCell>
                       {Object.entries(row).filter((rw) => rw[0].toLowerCase() !== 'id')
-                        .map((rw) => <TableCell style={{ maxWidth: '20vw', overflowWrap: 'break-word' }} key={rw[0] + ''  + rw[1]} align={rw[0].toLocaleLowerCase() === 'nome' ? 'left' : "center"}>{rw[1]}</TableCell>)}
+                        .map((rw) => <TableCell style={{ maxWidth: '20vw', overflowWrap: 'break-word', fontSize: '1em', }} key={rw[0] + ''  + rw[1]} align={rw[0].toLocaleLowerCase() === 'nome' ? 'left' : "center"}>{rw[1]}</TableCell>)}
                     </TableRow>
                   );
                 })}

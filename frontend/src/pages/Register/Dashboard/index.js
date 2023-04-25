@@ -50,14 +50,16 @@ export default function RegisterDashboard() {
 
   return (
     <Container>
-      <h1>Cadastro de Dashboard</h1>
       <div className="status">
-        <span className="type">Status do dashboard</span>
-        <Switch
-          size="medium"
-          checked={dashboardStatus}
-          onClick={() => toggleDashboardStatus(!dashboardStatus)}
-        />
+        <h1>Cadastro de Dashboard</h1>
+        <div>
+          <span className="type">Status do dashboard</span>
+          <Switch
+            size="medium"
+            checked={dashboardStatus}
+            onClick={() => toggleDashboardStatus(!dashboardStatus)}
+          />
+        </div>
       </div>
       <form onSubmit={onSubmitDashboard}>
         <div>

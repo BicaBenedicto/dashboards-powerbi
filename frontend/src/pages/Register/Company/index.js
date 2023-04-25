@@ -100,14 +100,16 @@ export default function RegisterCompany() {
 
   return (
     <Container>
-      <h1>Cadastro de Empresa</h1>
       <div className="status">
-        <span className="type">Status da empresa</span>
-        <Switch
-          size="medium"
-          checked={companyStatus}
-          onClick={() => toggleCompanyStatus(!companyStatus)}
-        />
+        <h1>Cadastro de Empresa</h1>
+        <div>
+          <span className="type">Status da empresa</span>
+          <Switch
+            size="medium"
+            checked={companyStatus}
+            onClick={() => toggleCompanyStatus(!companyStatus)}
+          />
+        </div>
       </div>
       <form onSubmit={onSubmitCompany}>
         <div>
@@ -155,7 +157,7 @@ export default function RegisterCompany() {
               onChange={(e) => setNomeFantasia(e.target.value)}
             />
           </label>
-          <div>
+          <div className="responsavel-add">
             <label>
               <span>Responsável</span>
               <input
@@ -200,7 +202,7 @@ export default function RegisterCompany() {
           <ul>
             {responsaveis.map((resp, index) => 
               <>
-                <li key={index}>
+                <li  className="responsavel-add" key={index}>
                   <b>Nome: </b>{resp.nome}, <b>E-mail: </b>{resp.email}, <b>Telefone: </b>{convertTel(resp.telefone)} <button className="icon icon-remove" onClick={() => onRemoveResponsavelButton(index)}><DisabledByDefault /></button>
                 </li>
                 <br/>

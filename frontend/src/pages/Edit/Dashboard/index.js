@@ -36,7 +36,7 @@ export default function EditDashboard() {
       setName(dashboard.nome);
       setUrl(dashboard.url);
       setDesc(dashboard.descricao);
-      toggleDashboardStatus(!!Number(dashboard.status));
+      toggleDashboardStatus(dashboard.status === '1' || dashboard.status === 'true');
       setCreatedAt(dashboard.createdAt);
     })();
   }, []);
@@ -61,6 +61,14 @@ export default function EditDashboard() {
     <Container>
       <div className="status">
         <h1>Edição de Dashboard</h1>
+        <div>
+          <span className="type">Status do dashboard</span>
+          <Switch
+            size="medium"
+            checked={dashboardStatus}
+            onClick={() => toggleDashboardStatus(!dashboardStatus)}
+          />
+        </div>
         <button
           type="button"
           style={{ alignItems: 'center', display: 'flex', backgroundColor: 'transparent', border: 'none', color: 'red' }}

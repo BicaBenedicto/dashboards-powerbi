@@ -57,4 +57,16 @@ ul {
     }
   }
 }
+
+@media only screen and (max-width: 1000px) {
+  ul {
+    align-items: center;
+    flex-direction: column;
+    width: 85%;
+    li {
+      margin: 10px;
+      width: 50%;
+    }
+  }
+}
 `;

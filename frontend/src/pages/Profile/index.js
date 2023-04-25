@@ -30,6 +30,7 @@ export default function Profile() {
   // const [createdAt, setCreatedAt] = useState('');
 
   useEffect(() => {
+    console.log(user, 'USER');
     (async () => {
       const empresas = await Empresas.get();
 
@@ -38,7 +39,7 @@ export default function Profile() {
       // setPermission(user.permissaoInfo.id);
       setName(user.nome);
       setEmail(user.email);
-      // toggleUsersStatus(!!Number(user.status));
+      // toggleUsersStatus(user.status === '1' || user.status === 'true');
       // setCreatedAt(user.createdAt);
     })();
   }, [user]);
@@ -47,17 +48,23 @@ export default function Profile() {
     e.preventDefault();
     try {
       if (password) {
-          await Usuarios.update(params.id, {
+          await Usuarios.update(user.id, {
           nome: name,
           email,
           senha: password,
         });
       } else {
-        await Usuarios.update(params.id, {
+        await Usuarios.update(user.id, {
           nome: name,
           email,
         });
       }
+
+      setUser((prevState) => ({
+        ...prevState,
+        nome: name,
+        email
+      }))
       setTooltipDetails({ icon: 'sucess', text: 'Perfil atualizado com sucesso'});
     } catch (e) {
       setTooltipDetails({ icon: 'error', text: e});
@@ -135,13 +142,6 @@ export default function Profile() {
             className="submit"
           >
             Salvar
-          </button>
-          <button
-            type="button"
-            className="cancel"
-            onClick={() => navigate(pathnameBack)}
-          >
-            Cancelar
           </button>
         </div>
       </form>
