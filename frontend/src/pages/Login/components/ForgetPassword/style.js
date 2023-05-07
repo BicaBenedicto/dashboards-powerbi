@@ -14,28 +14,6 @@ export const Form = styled.form`
     margin: 10px 0;
     position: relative;
     width: 100%;
-
-    span {
-      font-size: 1.5em;
-      padding: 2px 10px;
-    }
-
-    input {
-      border: 1px solid ${({theme}) => theme.primaryBackground};
-      border-radius: 10px;
-      padding: 5%;
-      font-size: 1.5em;
-      position: relative;
-      width: 90%;
-    }
-
-    button.display-password {
-      background: transparent;
-      border: none;
-      position: absolute;
-      right: 15px;
-      bottom: 20%;
-    }
   }
 
   button.submit {
@@ -43,7 +21,7 @@ export const Form = styled.form`
     border: none;
     border-radius: 10px;
     color: ${({theme}) => theme.primaryText};
-    font-size: 1.3em;
+    font-size: 1em;
     padding: 15px 0;
     margin-top: 20px;
     width: 100%;
@@ -54,7 +32,7 @@ export const Form = styled.form`
     border: none;
     border-radius: 10px;
     color: ${({theme}) => theme.SecondaryText};
-    font-size: 1.3em; 
+    font-size: 1em; 
     padding: 15px 0;
     margin-top: 20px;
     width: 100%;

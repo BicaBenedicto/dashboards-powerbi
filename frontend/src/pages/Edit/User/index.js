@@ -1,9 +1,9 @@
 import { Switch } from "@mui/material";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-// import {
-//   Edit,
-// } from '@mui/icons-material';
+import {
+  Edit,
+} from '@mui/icons-material';
 
 import { Container } from './style';
 
@@ -18,8 +18,8 @@ export default function EditUsers() {
   const params = useParams();
   const pathnameBack = location.pathname.split('/').filter((_v, index, array) => index !== (array.length - 1) && index !== (array.length - 2)).join('/');
   const [name, setName] = useState('');
-  // const [password, setPassword] = useState('@123456@');
-  // const [editPassword, toggleEditPassword] = useState(false);
+  const [password, setPassword] = useState('');
+  const [editPassword, toggleEditPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
   const [companies, setCompanies] = useState([]);
@@ -44,6 +44,11 @@ export default function EditUsers() {
     }
   }, [user, params]);
 
+  useEffect(() => {
+    const empresa = companies.find((empresa) => empresa.id === Number(company));
+    setPermission(empresa?.permissoes[0]?.id);
+  }, [company]);
+
   const onSubmitDashboard = async (e) => {
     e.preventDefault();
     try {
@@ -53,14 +58,24 @@ export default function EditUsers() {
         setPermission(empresa?.permissoes[0]?.id);
         return;
       }
-      await Usuarios.update(params.id, {
-        nome: name,
-        email,
-        empresaId: Number(company),
-        permissao: Number(permission),
-        // senha: password,
-        status: usersStatus,
-      });
+      if (password) {
+        await Usuarios.update(params.id, {
+          nome: name,
+          email,
+          empresaId: Number(company),
+          permissao: Number(permission),
+          senha: password,
+          status: usersStatus,
+        });
+      } else {
+        await Usuarios.update(params.id, {
+          nome: name,
+          email,
+          empresaId: Number(company),
+          permissao: Number(permission),
+          status: usersStatus,
+        });
+      }
       setTooltipDetails({ icon: 'sucess', text: 'Usuário(a) atualizado(a) com sucesso'});
     } catch (e) {
       setTooltipDetails({ icon: 'error', text: e});
@@ -87,23 +102,23 @@ export default function EditUsers() {
             return navigate(pathnameBack);
           }}
         ><Delete /> Apagar usuário</button>
+        <div>
+          <span className="type">Senha:</span>
+          <input
+            type="text"
+            placeholder="******"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={!editPassword}
+            className="password"
+          />
+          <button
+            type="button"
+            style={{ backgroundColor: 'transparent' }}
+            onClick={() => toggleEditPassword(!editPassword)}
+          ><Edit /></button>
+        </div>
       </div>
-      <br />
-      {/* <div className="status">
-        <span className="type">Senha padrão:</span>
-        <input
-          type="text"
-          placeholder="@123456@"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          disabled={!editPassword}
-          className="password"
-        />
-        <button
-          type="button"
-          onClick={() => toggleEditPassword(!editPassword)}
-        ><Edit /></button>
-      </div> */}
       <form onSubmit={onSubmitDashboard}>
         <div>
           <label>
@@ -141,7 +156,7 @@ export default function EditUsers() {
               value={permission}
               onChange={(e) => setPermission(e.target.value)}
             >
-              {companies.find((comp) => comp.id === Number(company))?.permissoes?.length > 0 && companies.find((comp) => comp.id === Number(company))?.permissoes.filter((perm) => perm.level < Number(user.permissao)).map((perm) => <option key={perm.id} value={perm.id}>{perm.nome}</option>)}
+              {companies.find((comp) => comp.id === Number(company))?.permissoes?.length > 0 && companies.find((comp) => comp.id === Number(company))?.permissoes.filter((perm) => perm.level < Number(user.permissao) || Number(user.permissao) === 1000).map((perm) => <option key={perm.id} value={perm.id}>{perm.nome}</option>)}
             </select>
           </label>
           <h3 className="date-register">Data do Cadastro: {new Date(createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })}</h3>

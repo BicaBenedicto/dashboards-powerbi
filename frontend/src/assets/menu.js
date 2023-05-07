@@ -14,12 +14,12 @@ const MENU = [
     path: '/dashboard',
     permission: 1,
   },
-  {
-    name: 'Perfil',
-    icon: <AccountCircle />,
-    path: '/profile',
-    permission: 1,
-  },
+  // {
+  //   name: 'Perfil',
+  //   icon: <AccountCircle />,
+  //   path: '/profile',
+  //   permission: 1,
+  // },
   {
     name: 'Configurações',
     icon: <AppRegistration />,

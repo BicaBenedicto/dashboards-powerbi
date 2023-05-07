@@ -30,7 +30,6 @@ export default function Profile() {
   // const [createdAt, setCreatedAt] = useState('');
 
   useEffect(() => {
-    console.log(user, 'USER');
     (async () => {
       const empresas = await Empresas.get();
 
@@ -88,6 +87,8 @@ export default function Profile() {
       <br />
       <form onSubmit={onSubmitDashboard}>
         <div>
+          <h3 className="date-register" style={{ alignItems: 'center', display: 'flex', width: '100%', margin: '5px auto', marginLeft: '2.5%' }}>Empresa: <span style={{ fontWeight: '300', marginLeft: '2.5%' }}>{companies.find((comp) => comp?.id === user?.permissaoInfo?.empresaId)?.razaoSocial}</span></h3>
+          <h3 className="date-register" style={{ alignItems: 'center', display: 'flex', width: '100%', margin: '5px auto', marginLeft: '2.5%' }}>Permissão: <span style={{ fontWeight: '300', marginLeft: '2.5%' }}>{user?.permissaoInfo?.nome}</span></h3>
           <label>
             <span>Nome</span>
             <input
@@ -108,8 +109,8 @@ export default function Profile() {
           </label>
          <label className="password">
             <span className="type">Senha:</span>
-            <div>
-              <div>
+            <div className="label-buttons">
+              <div className="label-input">
                 <input
                   type={displayPassword ? 'text' : 'password'}
                   value={password}
@@ -127,14 +128,13 @@ export default function Profile() {
               </div>
               <button
                 type="button"
+                className="edit-button"
                 onClick={() => {toggleDisplayPassword(false); return toggleEditPassword(!editPassword)}}
               >
                 <Edit />
               </button>
             </div>
           </label>
-          <h3 className="date-register" style={{ alignItems: 'center', display: 'flex', width: '100%', margin: '5px auto', marginLeft: '2.5%' }}>Empresa: <span style={{ fontWeight: '300', marginLeft: '2.5%' }}>{companies.find((comp) => comp?.id === user?.permissaoInfo?.empresaId)?.razaoSocial}</span></h3>
-          <h3 className="date-register" style={{ alignItems: 'center', display: 'flex', width: '100%', margin: '5px auto', marginLeft: '2.5%' }}>Permissão: <span style={{ fontWeight: '300', marginLeft: '2.5%' }}>{user?.permissaoInfo?.nome}</span></h3>
         </div>
         <div className="buttons">
           <button

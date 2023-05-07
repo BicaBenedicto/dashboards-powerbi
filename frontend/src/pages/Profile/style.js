@@ -67,7 +67,7 @@ form {
   h3.date-register {
     align-self: start;
     display: inline-block;
-    font-size: 1.5em;
+    font-size: 1em;
     margin-left: 2.5%;
   }
 
@@ -103,7 +103,7 @@ form {
       width: 95%;
 
       span {
-        font-size: 1.5em;
+        font-size: 1em;
         font-weight: bold;
         padding: 2px 10px;
       }
@@ -111,8 +111,8 @@ form {
       input, textarea, select {
         border: 1px solid ${({theme}) => theme.primaryBackground};
         border-radius: 10px;
-        padding: 2%;
-        font-size: 1.5em;
+        padding: 10px;
+        font-size: 1em;
         position: relative;
         width: 96%;
       }
@@ -132,11 +132,27 @@ form {
 
           &.display-password {
             position: absolute;
-            right: 15px;
-            bottom: 20%;
+            right: 20px;
           }
         }
       }
+    }
+  }
+
+  div.label-buttons {
+    position: relative;
+    width: 100%;
+    
+    div.label-input {
+      position: relative;
+      width: 100%;
+
+    }
+
+    button.edit-button {
+      position: absolute;
+      right: 0;
+      transform: translateX(30px);
     }
   }
 
@@ -238,6 +254,26 @@ form {
       b {
         margin: 0 5px;
       }
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  form {
+    div {
+      width: 100%!important;
+    }
+  }
+  input {
+    width: 90%!important;
+  }
+  div.label-buttons {
+    div.label-input {
+      width: 90%;
+    }
+
+    button.edit-button {
+      transform: translateX(15px)!important;
     }
   }
 }

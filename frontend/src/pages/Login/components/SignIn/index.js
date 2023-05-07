@@ -90,6 +90,7 @@ export default function SignIn({ toggleInSignInPage }) {
           type={displayPassword ? 'text' : 'password'}
           value={password}
           placeholder="Senha"
+          autoComplete="false"
           onChange={(e) => setPassword(e.target.value)}
         />
         <button

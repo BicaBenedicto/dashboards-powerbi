@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
+  AccountCircle,
   Menu
 } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
@@ -10,12 +11,14 @@ import MENU from '../../assets/menu';
 import { Usuarios } from '../../services/api.service';
 
 import { Container } from './style';
+import logo from '../../assets/logo.png';
 
 export default function Layout({ children }) {
   const { user, setUser, tooltipDetails, setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [displayNameMenu, toggleDisplayNameMenu] = useState(false);
+  const [displayProfileItems, toggleDisplayProfileItems] = useState(false);
   const MINUTES_REFRESH_USER = 5;
 
   useEffect(() => {
@@ -87,11 +90,22 @@ export default function Layout({ children }) {
     <Container>
       <header className='header-layout'>
         <button type="button" className="menu-button" onClick={() => toggleDisplayNameMenu(!displayNameMenu)}><Menu /></button>
-        <h1>DataX - BI</h1>
-        <h4>{user?.empresa?.razaoSocial}</h4>
-        <div>
-          <h4>{user?.nome}</h4>
-          <span>{user?.permissaoInfo?.nome}</span>
+        {/* <h1>DataX - BI</h1> */}
+        <div></div>
+        <div></div>
+        {/* <h4>{user?.empresa?.razaoSocial}</h4> */}
+        <div style={{ position: 'relative' }}>
+          <button onClick={() => toggleDisplayProfileItems(!displayProfileItems)} style={{ color: 'gray', background: 'transparent', border: 'none' }}>
+            <AccountCircle />
+          </button>
+          {displayProfileItems && 
+          <div className="profile-items">
+            <h5>{user?.email}</h5>
+            <h4>{user?.permissaoInfo?.nome}</h4>
+            <button onClick={() => navigate('/profile')}><h5>Perfil</h5></button>
+            <button onClick={onLogoutButton}><h4>Sair</h4></button>
+          </div>
+          }
         </div>
       </header>
       {tooltipDetails && <Tooltip
@@ -119,19 +133,15 @@ export default function Layout({ children }) {
                 </li>
               )}
             </ul>
-            <footer>
-              <button type="button" onClick={onLogoutButton} className="logout">
-                Sair
-              </button>
-          </footer>
           </nav>
         </aside>
         <main className='main-layout'>
           {children}
         </main>
       </section>
-      <footer>
-        <h6>@2023 - Matos TI - 1.0.0</h6>
+      <footer style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <img src={logo} alt="logo" height="20px"/>
+        <h6>DataX MTI - Todos os direitos reservados à Matos TI ₢ 2023</h6>
       </footer>
     </Container>
   );

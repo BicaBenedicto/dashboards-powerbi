@@ -16,7 +16,7 @@ const StatusSwitch = ({ dashboard, permissaoId, callback }) => {
     return setStatus(!status)
   };
 
-  return <Switch value={status} checked={status} onClick={onSwitchChange} />;
+  return <><button type="button" onClick={() => {}}/><Switch value={status} checked={status} onClick={onSwitchChange} /></>;
 };
 
 export default function RegisterPermissions() {
@@ -84,6 +84,7 @@ export default function RegisterPermissions() {
         empresaId: Number(company),
         status: permissionsStatus,
         dashboards: dashboardsToSend,
+        level,
       });
 
       setName('');
@@ -113,7 +114,7 @@ export default function RegisterPermissions() {
             <span>Nome</span>
             <input
               type="text"
-              placeholder="Nome do dashboard"
+              placeholder="Nome da permissão"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />

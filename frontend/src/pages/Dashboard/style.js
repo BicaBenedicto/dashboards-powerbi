@@ -3,10 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.section`
 background-color: ${({theme}) => theme.background};
 color: ${({theme}) => theme.text};
-padding: 20px 0;
 padding-top: 0;
-min-height 80vh;
-height: 100%;
 width: 100%;
 
 h1 {
@@ -67,7 +64,7 @@ div.dashboard {
   iframe {
     border: none;
     border-radius: 20px;
-    min-height 110vh;
+    min-height 90vh;
     height: 100%;
     width: 100%;
   }

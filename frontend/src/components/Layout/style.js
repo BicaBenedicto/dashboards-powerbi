@@ -7,8 +7,6 @@ background-color: ${({theme}) => theme.background};
 justify-content: space-between;
 color: ${({theme}) => theme.text};
 position: relative;
-min-height: 100vh;
-height: 100%;
 width: 100%;
 
 h1 {
@@ -81,6 +79,34 @@ header.header-layout {
     background-color: transparent;
     display: none;
     margin-left: 10px;
+  }
+
+  div.profile-items {
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    text-align: center;
+    transform: translateY(0) translateX(-100px);
+    padding: 10px;
+    z-index: 200;
+
+    button {
+      background-color: transparent;
+      width: 100%;
+
+      text-align: start;
+    }
+
+    h4, h5 {
+      padding: 0;
+      margin: 0;
+    }
+
+    h4 {
+      margin-top: 5px;
+    }
   }
 }
 
@@ -271,7 +297,7 @@ section.section-layout {
   main.main-layout {
     padding: 0!important;
     margin: 0 auto!important;
-    width: 95%!important;
+    width: 100%!important;
   }
 }
 `;

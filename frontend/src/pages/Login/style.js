@@ -10,6 +10,29 @@ export const Container = styled.section`
   height: 100vh;
   width: 100%;
 
+  header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    img.logo-datax {
+      width: 10%;
+    }
+  }
+
+  footer {
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    width: 100%;
+    h6 {
+      padding: 0;
+      margin: 1em;
+    }
+  }
+  
+
   .tooltip-layout {
     align-items: center;
     display: flex;
@@ -84,25 +107,26 @@ export const Container = styled.section`
         width: 100%;
 
         span {
-          font-size: 1.5em;
+          font-size: 1em;
           padding: 2px 10px;
         }
 
         input {
           border: 1px solid ${({theme}) => theme.primaryBackground};
           border-radius: 10px;
-          padding: 5%;
-          font-size: 1.5em;
+          padding: 10px;
+          font-size: 1em;
           position: relative;
-          width: 90%;
+          width: 100%;
         }
 
         button.display-password {
           background: transparent;
           border: none;
           position: absolute;
-          right: 15px;
-          bottom: 20%;
+          right: 0px;
+          bottom: 50%;
+          top: 50%;
         }
       }
 
@@ -120,10 +144,11 @@ export const Container = styled.section`
         border: none;
         border-radius: 10px;
         color: ${({theme}) => theme.primaryText};
-        font-size: 1.3em;
+        font-size: 1em;
         padding: 15px 0;
         margin-top: 20px;
-        width: 100%;
+        margin-left: 15px;
+        width: 90%;
       }
     }
   }
@@ -131,11 +156,33 @@ export const Container = styled.section`
   @media only screen and (max-width: 1000px) {
     section {
       width: 95%;
+
+      form {
+        margin: 0;
+        width: 95%;
+
+        label {
+          width: 95%;
+          
+              input {
+                width: 100%;
+              }
+        }
+
+      }
     }
 
+
+
     button.display-password {
-      right: 15px;
-      bottom: 7px!important;
+      bottom: 50%!important;
+      top: 50%!important;
+    }
+
+    header {
+      img.logo-datax {
+        width: 20%;
+      }
     }
   }
 `;
