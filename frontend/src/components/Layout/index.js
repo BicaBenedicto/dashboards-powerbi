@@ -110,13 +110,15 @@ export default function Layout({ children }) {
   return (
     <Container>
       <header className='header-layout'>
-        <button type="button" className="menu-button" onClick={() => toggleDisplayNameMenu(!displayNameMenu)}><Menu /></button>
+        {
+         // <button type="button" className="menu-button" onClick={() => toggleDisplayNameMenu(!displayNameMenu)}><Menu /></button>
+        }
         {/* <h1>DataX - BI</h1> */}
         <div></div>
         <div></div>
         {/* <h4>{user?.empresa?.razaoSocial}</h4> */}
         <div style={{ position: 'relative' }}>
-          <button onClick={() => toggleDisplayProfileItems(!displayProfileItems)} style={{ color: 'gray', background: 'transparent', border: 'none' }}>
+          <button onClick={() => toggleDisplayProfileItems((prevState) => !prevState)} style={{ color: 'gray', background: 'transparent', border: 'none' }}>
             <AccountCircle />
           </button>
           {displayProfileItems && 
