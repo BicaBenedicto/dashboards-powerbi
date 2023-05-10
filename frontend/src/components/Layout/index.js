@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   AccountCircle,
@@ -13,6 +13,25 @@ import { Usuarios } from '../../services/api.service';
 import { Container } from './style';
 import logo from '../../assets/logo.png';
 
+function useOutsideAlerter(ref, toggleEditStatus) {
+  useEffect(() => {
+    /**
+     * Alert if clicked on outside of element
+     */
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        toggleEditStatus(false);
+      }
+    }
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+}
+
 export default function Layout({ children }) {
   const { user, setUser, tooltipDetails, setTooltipDetails } = useContext(ThemeContext);
   const navigate = useNavigate();
@@ -20,6 +39,8 @@ export default function Layout({ children }) {
   const [displayNameMenu, toggleDisplayNameMenu] = useState(false);
   const [displayProfileItems, toggleDisplayProfileItems] = useState(false);
   const MINUTES_REFRESH_USER = 5;
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef, toggleDisplayProfileItems);
 
   useEffect(() => {
     if (user.id) {
@@ -99,10 +120,10 @@ export default function Layout({ children }) {
             <AccountCircle />
           </button>
           {displayProfileItems && 
-          <div className="profile-items">
+          <div className="profile-items" ref={wrapperRef}>
             <h5>{user?.email}</h5>
             <h4>{user?.permissaoInfo?.nome}</h4>
-            <button onClick={() => navigate('/profile')}><h5>Perfil</h5></button>
+            {MENU.map((item) => <button style={{ paddingTop: '5px', paddingBottom: '10px' }} onClick={() => navigate(item.path)}><h5>{item.name}</h5></button>)}
             <button onClick={onLogoutButton}><h4>Sair</h4></button>
           </div>
           }
@@ -121,20 +142,21 @@ export default function Layout({ children }) {
           </div>
       }/>}
       <section className='section-layout'>
-        <aside className={`aside-layout ${displayNameMenu ? 'active' : ''}`}>
-          <nav>
-            <ul>
-              {MENU.filter((item) => item.permission <= Number(user?.permissao)).map((item) => 
-                <li key={item.name}>
-                  <button type="button" onClick={() => {navigate(item.path); toggleDisplayNameMenu(false)}}>
-                  {item.icon}
-                  <span>{item.name}</span>
-                  </button>
-                </li>
-              )}
-            </ul>
-          </nav>
-        </aside>
+        {//<aside className={`aside-layout ${displayNameMenu ? 'active' : ''}`}>
+         // <nav>
+         //   <ul>
+         //     {MENU.filter((item) => item.permission <= Number(user?.permissao)).map((item) => 
+         //       <li key={item.name}>
+         //         <button type="button" onClick={() => {navigate(item.path); toggleDisplayNameMenu(false)}}>
+         //         {item.icon}
+         //         <span>{item.name}</span>
+         //         </button>
+         //       </li>
+         //     )}
+         //   </ul>
+         // </nav>
+         //</aside>
+        }
         <main className='main-layout'>
           {children}
         </main>
