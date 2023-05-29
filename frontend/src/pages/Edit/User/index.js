@@ -31,22 +31,22 @@ export default function EditUsers() {
     if (user.id) {
       (async () => {
         const empresas = await Empresas.get();
-        const [user] = await Usuarios.get(`id=${params.id}`);
+        const [userGet] = await Usuarios.get(`id=${params.id}`);
 
         setCompanies(empresas);
-        setCompany(user.permissao.empresaId);
-        setPermission(user.permissao.id);
-        setName(user.nome);
-        setEmail(user.email);
-        toggleUsersStatus(user.status === '1' || user.status === 'true');
-        setCreatedAt(user.createdAt);
+        setCompany(userGet.permissao.empresaId);
+        setPermission(userGet.permissao.id);
+        setName(userGet.nome);
+        setEmail(userGet.email);
+        toggleUsersStatus(userGet.status === '1' || userGet.status === 'true');
+        setCreatedAt(userGet.createdAt);
       })();
     }
   }, [user, params]);
 
   useEffect(() => {
     const empresa = companies.find((empresa) => empresa.id === Number(company));
-    setPermission(empresa?.permissoes[0]?.id);
+    if (empresa?.id !== Number(company)) setPermission(empresa?.permissoes[0]?.id);
   }, [company]);
 
   const onSubmitDashboard = async (e) => {

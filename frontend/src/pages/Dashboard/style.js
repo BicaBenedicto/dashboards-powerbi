@@ -6,6 +6,49 @@ color: ${({theme}) => theme.text};
 padding-top: 0;
 width: 100%;
 
+.float {
+  top: 10px;
+  right: 10px;
+
+  button {
+    background-color: transparent;
+
+    svg {
+      color: ${({theme}) => theme.secondaryText};
+      width: 50px;
+    }
+  }
+
+  .dashboard-info {
+    background-color: ${({theme}) => theme.secondaryBackground};
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    text-align: center;
+    transform: translateY(0) translateX(-100px);
+    padding: 10px;
+    width: 200px;
+    z-index: 200;
+
+    button {
+      background-color: transparent;
+      width: 100%;
+
+      text-align: start;
+    }
+
+    h4, h5 {
+      padding: 0;
+      margin: 0;
+    }
+
+    h4 {
+      margin-top: 5px;
+    }
+  }
+}
+
 h1 {
   font-size: 1.5em;
 }

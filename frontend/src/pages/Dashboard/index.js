@@ -1,16 +1,43 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
+import {
+  Refresh,
+  Info,
+} from '@mui/icons-material';
 
 import { Container } from './style';
 
 import { Dashboards, Empresas } from '../../services/api.service';
 import { ThemeContext } from "../../App";
 
+function useOutsideAlerter(ref, toggleEditStatus) {
+  useEffect(() => {
+    /**
+     * Alert if clicked on outside of element
+     */
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        toggleEditStatus(false);
+      }
+    }
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+}
+
 export default function Dashboard() {
+  const wrapperRef = useRef();
   const { user } = useContext(ThemeContext);
   const [dashboard, setDashboard] = useState();
-  const [dashboardsFiltered, setdashboardsFiltered] = useState([]);
+  const [dashboardsFiltered, setDashboardsFiltered] = useState([]);
   const [company, setCompany] = useState('');
   const [companies, setCompanies] = useState([]);
+  const [displayDashboardInfo, toggleDisplayDashboardInfo] = useState(false);
+  useOutsideAlerter(wrapperRef, toggleDisplayDashboardInfo);
+
 
   useEffect(() => {
     (async () => {
@@ -24,7 +51,7 @@ export default function Dashboard() {
 
       const filteredDashboards = perm.filter((dash) => dash?.permissoes.some(({ permissaoId }) => user?.permissaoInfo?.id === permissaoId) || user?.permissao === 1000);
 
-      setdashboardsFiltered(filteredDashboards);
+      setDashboardsFiltered(filteredDashboards);
       setDashboard(filteredDashboards[0]?.id);
     })();
   }, []);
@@ -35,10 +62,11 @@ export default function Dashboard() {
 
       const filteredDashboards = perm.filter((dash) => dash?.permissoes.some(({ permissaoId }) => user?.permissaoInfo?.id === permissaoId) || user?.permissao === 1000);
 
-      setdashboardsFiltered(filteredDashboards);
+      setDashboardsFiltered(filteredDashboards);
       setDashboard(filteredDashboards[0]?.id);
     })();
   }, [company]);
+
   return (
     <Container>
       <div className="status">
@@ -61,6 +89,24 @@ export default function Dashboard() {
               {companies?.length > 0 && companies.map((comp) => <option key={comp.id} value={comp.id}>{comp.razaoSocial}</option>)}
             </select>
           </>}  
+        </div>
+        <div className="float">
+          <button onClick={() => { setDashboardsFiltered((prevState) => prevState.map((dash) => {
+            if (dash?.id === Number(dashboard)) return ({
+              ...dash, url: dash.url + '&random=' + Math.random().toString() });
+
+            return dash;
+          })) }}>
+            <Refresh />
+          </button>
+          <button onClick={() => toggleDisplayDashboardInfo(!displayDashboardInfo)}>
+            <Info />
+          </button>
+          {displayDashboardInfo && 
+          <div className="dashboard-info" ref={wrapperRef}>
+            <h5>{dashboardsFiltered?.find((dash) => dash?.id === Number(dashboard))?.descricao}</h5>
+          </div>
+          }
         </div>
       </div>
       <div className="dashboard">
