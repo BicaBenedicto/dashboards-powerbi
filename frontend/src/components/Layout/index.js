@@ -125,7 +125,7 @@ export default function Layout({ children }) {
           <div className="profile-items" ref={wrapperRef}>
             <h5>{user?.email}</h5>
             <h4>{user?.permissaoInfo?.nome}</h4>
-            {MENU.map((item) => <button style={{ paddingTop: '5px', paddingBottom: '10px' }} onClick={() => navigate(item.path)}><h5>{item.name}</h5></button>)}
+            {MENU.filter((item) => item.permission <= user?.permissao).map((item) => <button style={{ paddingTop: '5px', paddingBottom: '10px' }} onClick={() => navigate(item.path)}><h5>{item.name}</h5></button>)}
             <button onClick={onLogoutButton}><h4>Sair</h4></button>
           </div>
           }

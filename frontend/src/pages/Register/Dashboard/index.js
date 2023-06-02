@@ -99,6 +99,7 @@ export default function RegisterDashboard() {
               placeholder="Descrição sobre o proposito do dashboard"
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
+              maxLength={500}
             />    
           </label>
         </div>
