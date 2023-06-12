@@ -14,7 +14,7 @@ const Dashboards = {
       'string.empty': `O "url do dashboard" não pode estar vazio`,
       'any.required': `O campo "url do dashboard" é necessário e não pode estar vazio`
     }),
-    descricao: Joi.string().messages({
+    descricao: Joi.string().max(500).messages({
       'string.empty': `A "descrição do dashboard" não pode estar vazia`,
       'any.required': `O campo "descrição do dashboard" é necessário e não pode estar vazio`
     }),
@@ -37,7 +37,7 @@ const Dashboards = {
       'string.empty': `O "url do dashboard" não pode estar vazio`,
       'any.required': `O campo "url do dashboard" é necessário e não pode estar vazio`
     }),
-    descricao: Joi.string().required().messages({
+    descricao: Joi.string().max(500).required().messages({
       'string.empty': `A "descrição do dashboard" não pode estar vazia`,
       'any.required': `O campo "descrição do dashboard" é necessário e não pode estar vazio`
     }),
