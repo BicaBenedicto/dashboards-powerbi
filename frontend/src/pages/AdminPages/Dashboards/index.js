@@ -15,6 +15,7 @@ const StatusSwitch = ({ dashboard, callback }) => {
   const initStatus = dashboard?.status === "1" || dashboard?.status === "true";
   const [status, setStatus] = useState(initStatus);
   
+  
   const onSwitchChange = async () => {
       try {
         await Dashboards.update(dashboard.id, {
@@ -78,7 +79,8 @@ export default function AdminPagesDashboards() {
           URL: dash.url,
           'Descrição': dash.descricao,
           Empresa: companies.find((comp) => comp.id === dash?.empresaId)?.razaoSocial,
-          Status: <StatusSwitch dashboard={dash} callback={setTooltipDetails} />,
+          Status: <div style={{ width: '30px ', height: '30px', backgroundColor: dash.status == '1' || dash.status == 'true' ? 'green' : 'red', borderRadius:"100%"}}/>,
+          // <StatusSwitch dashboard={dash} callback={setTooltipDetails} />,
           Editar: <ButtonEdit id={dash.id} />
         })
       });
