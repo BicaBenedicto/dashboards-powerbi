@@ -15,6 +15,7 @@ const Dashboards = {
       'any.required': `O campo "url do dashboard" é necessário e não pode estar vazio`
     }),
     descricao: Joi.string().max(500).messages({
+      'string.max': 'A "descrição do dashboard" pode ter no máximo 500 caracteres',
       'string.empty': `A "descrição do dashboard" não pode estar vazia`,
       'any.required': `O campo "descrição do dashboard" é necessário e não pode estar vazio`
     }),
@@ -38,6 +39,7 @@ const Dashboards = {
       'any.required': `O campo "url do dashboard" é necessário e não pode estar vazio`
     }),
     descricao: Joi.string().max(500).required().messages({
+      'string.max': 'A "descrição do dashboard" pode ter no máximo 500 caracteres',
       'string.empty': `A "descrição do dashboard" não pode estar vazia`,
       'any.required': `O campo "descrição do dashboard" é necessário e não pode estar vazio`
     }),
