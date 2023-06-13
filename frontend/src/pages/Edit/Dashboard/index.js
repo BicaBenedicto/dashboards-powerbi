@@ -119,6 +119,7 @@ export default function EditDashboard() {
               maxLength={500}
             />
           </label>
+          <span>ℹ️ O tamanho maximo para o campo de descrição de 500 caracteres. </span>
         </div>
         <div className="buttons">
           <button
