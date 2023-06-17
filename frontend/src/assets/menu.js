@@ -24,7 +24,7 @@ const MENU = [
     name: 'Configurações',
     icon: <AppRegistration />,
     path: '/dashboard-admin',
-    permission: 4,
+    permission: 1000,
     children: [
       {
         name: 'Empresas',
@@ -36,7 +36,7 @@ const MENU = [
         name: 'Usuários',
         path: '/users',
         icon: <Group />,
-        permission: 4,
+        permission: 1000,
       },
       {
         name: 'Dashboards',

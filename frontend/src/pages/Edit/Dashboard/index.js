@@ -105,7 +105,7 @@ export default function EditDashboard() {
               value={company}
               onChange={(e) => setCompany(e.target.value)}
             >
-              {companies?.length > 0 && companies.map((comp) => <option key={comp.id} value={comp.id}>{comp.razaoSocial}</option>)}
+              {companies?.length > 0 && companies.map((comp) => <option key={comp.id} value={comp.id}>{comp.nome}</option>)}
             </select>
           </label>
           <h3 className="date-register">Data do Cadastro: {new Date(createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })}</h3>
