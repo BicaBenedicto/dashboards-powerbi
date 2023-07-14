@@ -133,6 +133,8 @@ const forgetPassword = async (require, response, next) => {
       `
     );
 
+    await Usuarios.update({ senha: tempPassword }, { where: { email }});
+
     return response.status(200).json({ message: 'Enviado nova senha' });
   } catch (e) {
     return next(e);

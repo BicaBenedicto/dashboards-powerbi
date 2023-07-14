@@ -49,29 +49,29 @@ export default function SignIn({ toggleInSignInPage }) {
     }
   };
 
-  useEffect(() => {
-    const userSaved = localStorage.getItem('@LOGIN');
+  // useEffect(() => {
+  //   const userSaved = localStorage.getItem('@LOGIN');
 
-    if(userSaved) {
-      const userParse = JSON.parse(userSaved);
-      setUser(userParse);
-    }
+  //   if(userSaved) {
+  //     const userParse = JSON.parse(userSaved);
+  //     setUser(userParse);
+  //   }
 
-    if (user?.id) {
-      (async () => {
-        const [userApi] = await Usuarios.get(`id=${user?.id}`);
+  //   if (user?.id) {
+  //     (async () => {
+  //       const [userApi] = await Usuarios.get(`id=${user?.id}`);
 
-        if (userApi?.empresa?.status === '0') {
-          localStorage.removeItem('@LOGIN');
-          setUser({});
-          navigate('/company-offline');
-        }
-        if (userApi?.empresa?.status === '1') {
-          navigate('/dashboard');
-        }
-      })();
-    }
-  }, []);
+  //       if (userApi?.empresa?.status === '0') {
+  //         localStorage.removeItem('@LOGIN');
+  //         setUser({});
+  //         navigate('/company-offline');
+  //       }
+  //       if (userApi?.empresa?.status === '1') {
+  //         navigate('/dashboard');
+  //       }
+  //     })();
+  //   }
+  // }, []);
 
   return (
     <Form onSubmit={onSubmitForm}>
