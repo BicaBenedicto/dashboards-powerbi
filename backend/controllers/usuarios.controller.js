@@ -124,12 +124,12 @@ const forgetPassword = async (require, response, next) => {
 
     await emailSend.send(
       email,
-      '[Dashboard de Power BI]! Aqui está o seu novo acesso 🔑',
+      '[DataX] Aqui está o seu novo acesso 🔑',
       null,
       `Olá, <br /><br />
       Aqui está o seu acesso: <br /><br />
       <b>Usuário</b>: ${email}<br />
-      <b>Senha</b>: ${tempPassword} <br /><br />
+      <b>Senha</b>: ${password} <br /><br />
       `
     );
 
@@ -137,6 +137,7 @@ const forgetPassword = async (require, response, next) => {
 
     return response.status(200).json({ message: 'Enviado nova senha' });
   } catch (e) {
+    console.log(e, 'ERRO NO ENVIO');
     return next(e);
   }
 }
