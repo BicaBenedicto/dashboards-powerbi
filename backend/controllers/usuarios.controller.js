@@ -130,6 +130,9 @@ const forgetPassword = async (require, response, next) => {
       Aqui está o seu acesso: <br /><br />
       <b>Usuário</b>: ${email}<br />
       <b>Senha</b>: ${password} <br /><br />
+      <br><br><br>
+      -------<br>
+      Assim que você entrar na plataforma, aproveite para trocar sua senha no botão <b>Login</b>, opção <b>Perfil</b>.
       `
     );
 
